@@ -1,0 +1,17 @@
+{
+	"name": "selects-themes",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"check": "biome check .",
+		"format": "biome format --write .",
+		"lint": "biome lint ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4"
+	}
+}
