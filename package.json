@@ -1,17 +1,24 @@
 {
-	"name": "selects-themes",
-	"version": "1.0.0",
-	"main": "index.js",
-	"scripts": {
-		"check": "biome check .",
-		"format": "biome format --write .",
-		"lint": "biome lint ."
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"description": "",
-	"devDependencies": {
-		"@biomejs/biome": "^2.4.4"
-	}
+  "name": "selects-themes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "check": "npm run check:required && npm run check:json && biome check .",
+    "check:required": "npm run check:required:theme-files",
+    "check:required:theme-files": "find web card package -mindepth 1 -maxdepth 1 -type d -exec sh -c 'for dir in \"$@\"; do if [ ! -f \"$dir/index.html\" ]; then echo \"Missing index.html: $dir\"; exit 1; fi; if [ ! -f \"$dir/meta.json\" ]; then echo \"Missing meta.json: $dir\"; exit 1; fi; done' sh {} +",
+    "check:json": "npm run check:json:meta-schema && npm run check:json:meta && npm run check:json:schema",
+    "check:json:meta-schema": "ajv compile --spec=draft7 -s schemas/meta.schema.json",
+    "check:json:meta": "find web card package -mindepth 1 -maxdepth 1 -type d -exec sh -c 'for dir in \"$@\"; do ajv validate --spec=draft7 -s schemas/meta.schema.json -d \"$dir/meta.json\" || exit 1; done' sh {} +",
+    "check:json:schema": "find web card package -mindepth 1 -maxdepth 1 -type d -exec sh -c 'for dir in \"$@\"; do if [ -f \"$dir/schema.json\" ]; then ajv compile --spec=draft7 -s \"$dir/schema.json\" || exit 1; fi; done' sh {} +",
+    "format": "biome format --write .",
+    "lint": "biome lint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
+    "ajv-cli": "^5.0.0"
+  }
 }
