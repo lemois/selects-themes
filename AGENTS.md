@@ -12,6 +12,12 @@
 - `schema.json` is optional in each theme directory.
 - `catalog-items.html` is optional and reserved for product detail pages.
 - Arbitrary extra `.html` pages are allowed.
+- Every HTML file in a theme directory must load the SDK script:
+  - `<script src="https://selects.gift/sdk/v1.js" defer></script>`
+- Load `runtime-env.js` before the SDK when present (example):
+  - `<script src="./runtime-env.js" defer></script>`
+  - `<script src="https://selects.gift/sdk/v1.js" defer></script>`
+- The SDK internally uses `alpine.js`; do not add a separate Alpine import unless explicitly required by platform constraints.
 - Links should omit `.html`; the server resolves it.
 - If assets are needed, place them under `assets/` inside the theme directory.
 - Recommended minimal shape:
