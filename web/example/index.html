@@ -4,15 +4,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hello World</title>
+    <link rel="stylesheet" href="./assets/style.css" />
     <script src="./runtime-env.js" defer></script>
     <script src="https://selects.gift/sdk/v1.js" defer></script>
   </head>
   <body>
     <main>
       <h1>Hello world</h1>
-      <section>
-        <h2>Alpine x-data="params" sample</h2>
-        <p x-data="params" x-text="message"></p>
+      <section x-data="params" x-show="message">
+        <h2>message</h2>
+        <p x-text="message"></p>
+      </section>
+      <section x-data="items">
+        <template x-for="([sectionName, sectionItems]) in Object.entries(sections)" :key="sectionName">
+          <article>
+            <h2 x-text="sectionName"></h2>
+            <ul>
+              <template x-for="item in sectionItems" :key="item.id">
+                <li>
+                  <p>
+                    <strong x-text="item.name"></strong>
+                  </p>
+                  <img
+                    :src="item.catalogItemImages[0]?.image"
+                    alt="商品画像"
+                    :alt="item.name ? `${item.name} の商品画像` : '商品画像'"
+                    width="240"
+                    loading="lazy"
+                  />
+                </li>
+              </template>
+            </ul>
+          </article>
+        </template>
       </section>
     </main>
   </body>
