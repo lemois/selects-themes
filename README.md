@@ -58,3 +58,19 @@ Run all checks:
 ```bash
 npm run check
 ```
+
+## Deploy to Cloudflare R2
+`main` への `push` 時に GitHub Actions (`.github/workflows/ci.yml`) から R2 に同期します。
+同期は 2 フェーズです（1: upload/update, 2: delete）。
+
+同期対象:
+- `web/`
+- `card/`
+- `package/`
+
+必要な GitHub Secrets:
+- `R2_ACCOUNT_ID`
+- `R2_BUCKET`
+- `R2_ACCESS_KEY_ID`
+- `R2_SECRET_ACCESS_KEY`
+
