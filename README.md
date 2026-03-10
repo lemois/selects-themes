@@ -52,6 +52,23 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - `schema.json` (if present) must be a valid JSON Schema.
 - `schema.json` must explicitly declare draft-07:
   - `"$schema": "http://json-schema.org/draft-07/schema#"`
+- UI metadata for schema fields should use `x-ui`.
+- Widget type should be written as `x-ui.widget`.
+- Widget options should be nested under `x-ui.options`.
+
+Example:
+
+```json
+"heroImage": {
+  "type": "string",
+  "x-ui": {
+    "widget": "file-picker",
+    "options": {
+      "accept": "image/*"
+    }
+  }
+}
+```
 
 ## Validation
 Run all checks:

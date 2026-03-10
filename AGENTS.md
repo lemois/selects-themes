@@ -32,4 +32,7 @@
 - `schemas/meta.schema.json` uses JSON Schema draft-07.
 - `schema.json` (when present) must explicitly declare draft-07:
   - `"$schema": "http://json-schema.org/draft-07/schema#"`
+- UI metadata for schema fields should use `x-ui`.
+- Widget type should be written as `x-ui.widget`.
+- Widget options should be nested under `x-ui.options`.
 - New or updated `schema.json` files must remain compatible with draft-07.
