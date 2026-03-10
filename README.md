@@ -3,11 +3,11 @@
 Theme definitions for three product domains.
 
 ## Directory structure
-- `web`: オンラインカタログギフト用テーマ
-- `card`: アイテムカードセット用テーマ
-- `package`: スリーブなどの包装用テーマ
+- `themes/web`: オンラインカタログギフト用テーマ
+- `themes/card`: アイテムカードセット用テーマ
+- `themes/package`: スリーブなどの包装用テーマ
 
-Each direct child directory under `web` / `card` / `package` is treated as a theme directory.
+Each direct child directory under `themes/web` / `themes/card` / `themes/package` is treated as a theme directory.
 
 ## Theme directory contract
 - `index.html` is required.
@@ -22,28 +22,29 @@ Each direct child directory under `web` / `card` / `package` is treated as a the
 
 ```text
 .
-├── web/
-│   └── <theme-name>/
-│       ├── index.html
-│       ├── meta.json
-│       ├── catalog-items.html # optional (product detail page)
-│       ├── about.html         # optional (arbitrary page)
-│       ├── schema.json        # optional
-│       └── assets/            # optional
-├── card/
-│   └── <theme-name>/
-│       ├── index.html
-│       ├── meta.json
-│       ├── catalog-items.html # optional
-│       ├── schema.json        # optional
-│       └── assets/            # optional
-└── package/
-    └── <theme-name>/
-        ├── index.html
-        ├── meta.json
-        ├── catalog-items.html # optional
-        ├── schema.json        # optional
-        └── assets/            # optional
+├── themes/
+│   ├── web/
+│   │   └── <theme-name>/
+│   │       ├── index.html
+│   │       ├── meta.json
+│   │       ├── catalog-items.html # optional (product detail page)
+│   │       ├── about.html         # optional (arbitrary page)
+│   │       ├── schema.json        # optional
+│   │       └── assets/            # optional
+│   ├── card/
+│   │   └── <theme-name>/
+│   │       ├── index.html
+│   │       ├── meta.json
+│   │       ├── catalog-items.html # optional
+│   │       ├── schema.json        # optional
+│   │       └── assets/            # optional
+│   └── package/
+│       └── <theme-name>/
+│           ├── index.html
+│           ├── meta.json
+│           ├── catalog-items.html # optional
+│           ├── schema.json        # optional
+│           └── assets/            # optional
 ```
 
 ## JSON schema rules
@@ -64,13 +65,12 @@ npm run check
 同期は 2 フェーズです（1: upload/update, 2: delete）。
 
 同期対象:
-- `web/`
-- `card/`
-- `package/`
+- `themes/web/`
+- `themes/card/`
+- `themes/package/`
 
 必要な GitHub Secrets:
 - `R2_ACCOUNT_ID`
 - `R2_BUCKET`
 - `R2_ACCESS_KEY_ID`
 - `R2_SECRET_ACCESS_KEY`
-

@@ -7,7 +7,7 @@ set -euo pipefail
 : "${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}"
 
 R2_ENDPOINT="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
-SYNC_DIRS=(web card package)
+SYNC_DIRS=(themes/web themes/card themes/package)
 
 for dir in "${SYNC_DIRS[@]}"; do
   if [[ ! -d "${dir}" ]]; then
