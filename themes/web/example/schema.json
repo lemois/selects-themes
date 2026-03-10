@@ -3,6 +3,23 @@
   "title": "Example Theme Parameters",
   "type": "object",
   "properties": {
+    "keyVisual": {
+      "type": "string",
+      "title": "キービジュアル",
+      "description": "選択したキービジュアル画像のパス",
+      "x-widget": {
+        "type": "file-picker",
+        "accept": "image/*"
+      }
+    },
+    "accentColor": {
+      "type": "string",
+      "title": "アクセントカラー",
+      "description": "テーマで使うアクセントカラー",
+      "x-widget": {
+        "type": "color-picker"
+      }
+    },
     "message": {
       "type": "string"
     }
