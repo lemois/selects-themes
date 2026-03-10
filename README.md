@@ -55,6 +55,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - UI metadata for schema fields should use `x-ui`.
 - Widget type should be written as `x-ui.widget`.
 - Widget options should be nested under `x-ui.options`.
+- `x-ui.options.accept` can be either a string or an array of strings when multiple file patterns are needed.
 
 Example:
 
@@ -65,6 +66,20 @@ Example:
     "widget": "file-picker",
     "options": {
       "accept": "image/*"
+    }
+  }
+}
+```
+
+Multiple patterns:
+
+```json
+"heroImage": {
+  "type": "string",
+  "x-ui": {
+    "widget": "file-picker",
+    "options": {
+      "accept": ["image/*", ".webp"]
     }
   }
 }
