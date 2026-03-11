@@ -39,3 +39,24 @@
 - Widget type should be written as `x-ui.widget`.
 - Widget options should be nested under `x-ui.options`.
 - New or updated `schema.json` files must remain compatible with draft-07.
+
+## Selects CLI bridge
+- Theme development should treat `selects` as the primary bridge to the design app.
+- Start by running `selects` with no arguments to retrieve the current request JSON Schema help.
+- `selects` reads a JSON request from stdin and writes a JSON response to stdout.
+- Do not hardcode supported commands in instructions because the bridge will be extended over time.
+- Treat the schema returned by the no-argument `selects` invocation as the authoritative source for supported commands, payload shapes, and examples.
+- Build stdin JSON requests only after reading that schema for the current environment.
+- Prefer the command exposed by that schema for retrieving the active design when theme work depends on the currently open design.
+- If the design app is not running, `selects` does not work. Treat that as an environment precondition, not a theme bug.
+- Keep stdin JSON compact and valid against the help schema returned by `selects`.
+- Example invocations:
+  - `selects`
+  - `printf '%s\n' '<request-json-from-help-schema>' | selects`
+
+## Local skills
+### Available skills
+- `selects-cli`: Workflow for using the `selects` CLI bridge during theme development. Read `/Users/usp/repositories/selects-themes/docs/skills/selects-cli/SKILL.md`.
+
+### Skill trigger
+- Use `selects-cli` whenever a task involves inspecting the current design app state, fetching active designs, listing designs, or deriving theme work from design data exposed through `selects`.
