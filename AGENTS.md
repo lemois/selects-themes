@@ -33,6 +33,7 @@
 - `schema.json` (when present) must explicitly declare draft-07:
   - `"$schema": "http://json-schema.org/draft-07/schema#"`
 - Write `schema.json` in a plain, inline form that the UI can interpret reliably.
+- Do not use tuple-style arrays such as `type: "array"` with `items: [...]` because the UI cannot interpret positional item schemas.
 - Do not use indirection such as `$ref`, `definitions`, or overly nested composition because the UI may not interpret them correctly.
 - UI metadata for schema fields should use `x-ui`.
 - Widget type should be written as `x-ui.widget`.
