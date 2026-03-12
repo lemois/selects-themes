@@ -46,6 +46,9 @@
 - `selects` reads a JSON request from stdin and writes a JSON response to stdout.
 - Do not hardcode supported commands in instructions because the bridge will be extended over time.
 - Treat the schema returned by the no-argument `selects` invocation as the authoritative source for supported commands, payload shapes, and examples.
+- Treat `selects` design resources as linked to the themes in this repository. Resolve the theme domain from `design.type`, then combine that domain with the theme identifier to find the corresponding theme directory under `themes/web`, `themes/card`, or `themes/package`.
+- For fields inside `design.params`, use the matched theme directory's `schema.json` as the source of truth when that file exists.
+- The `selects` help schema defines the CLI request envelope and command payload shapes. Theme-specific parameter fields are defined by each theme's `schema.json`, not by the CLI help output.
 - Build stdin JSON requests only after reading that schema for the current environment.
 - Prefer the command exposed by that schema for retrieving the active design when theme work depends on the currently open design.
 - If the design app is not running, `selects` does not work. Treat that as an environment precondition, not a theme bug.
