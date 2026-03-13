@@ -9,7 +9,7 @@ Use this skill for theme work that consumes the Selects Gift SDK in theme HTML.
 
 ## When to use
 
-- The user edits `index.html`, `catalog-items.html`, or another theme HTML page.
+- The user edits `index.html`, `catalog-items/[id].html`, or another theme HTML page.
 - The template uses `x-data="params"`, `x-data="items"`, or `x-data="itemDetail"`.
 - The task depends on loading states, error states, retry behavior, image URL generation, or variant selection behavior.
 - The user mentions the Selects Gift SDK or asks how the SDK behaves in themes.
@@ -24,6 +24,7 @@ Use this skill for theme work that consumes the Selects Gift SDK in theme HTML.
 ## Constraints
 
 - Repository-level HTML loading rules live in `README.md`.
+- Repository-level relative path rules live in `README.md`.
 - SDK usage rules live in `references/sdk-summary.md`.
 - Prefer the summary over the full spec unless exact behavior matters.
 

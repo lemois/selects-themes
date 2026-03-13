@@ -10,9 +10,9 @@ Theme definitions for three product domains.
 - `.agents/skills/*/references/*`: long-form references; open only on demand.
 
 ## Directory structure
-- `themes/web`: オンラインカタログギフト用テーマ
-- `themes/card`: アイテムカードセット用テーマ
-- `themes/package`: スリーブなどの包装用テーマ
+- `themes/web`: themes for online catalog gifts
+- `themes/card`: themes for item card sets
+- `themes/package`: themes for packaging such as sleeves
 
 Each direct child directory under `themes/web` / `themes/card` / `themes/package` is treated as a theme directory.
 
@@ -20,7 +20,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - `index.html` is required.
 - `meta.json` is required.
 - `schema.json` is optional.
-- `catalog-items.html` is optional (reserved page for product detail).
+- `catalog-items/[id].html` is required (reserved page for product detail).
 - You can add any other `.html` pages as needed.
 - Every HTML file in a theme directory must load the SDK script:
 
@@ -35,9 +35,35 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 <script src="https://selects.gift/sdk/v1.js" defer></script>
 ```
 
+- Local file references inside a theme directory must always use relative paths, whether they appear in HTML, CSS, or JS.
+- Reference local assets using paths relative to the current page. For example, `catalog-items/[id].html` can use `../assets/...` and `../runtime-env.js`.
+- Files above the theme directory cannot be referenced, so every referenced file must live under that theme.
+- Shared pages must resolve all of their own asset references through `./assets` in the same directory as the page itself.
+- This also applies to references inside CSS and JS: shared pages must not use parent-directory references such as `../assets`.
+- Shared pages are expected to be consumed by symlinking the entire directory that contains them.
+- During deploy, `aws s3 sync` uploads symlinks as file contents, so links are not preserved as links on R2.
 - Do not add a separate Alpine import unless platform constraints explicitly require it.
 - Links should be written without `.html` because the server resolves the extension.
-- If theme-specific assets are needed, place them in `assets/` under the same theme directory.
+
+Examples:
+
+```html
+<!-- index.html -->
+<link rel="stylesheet" href="./assets/style.css" />
+<script src="./runtime-env.js" defer></script>
+```
+
+```html
+<!-- catalog-items/[id].html -->
+<link rel="stylesheet" href="../assets/style.css" />
+<script src="../runtime-env.js" defer></script>
+```
+
+```html
+<!-- catalog-items/[id].html used as a shared page -->
+<link rel="stylesheet" href="./assets/style.css" />
+<script src="../runtime-env.js" defer></script>
+```
 
 Minimal shape:
 
@@ -45,7 +71,9 @@ Minimal shape:
 themes/<domain>/<theme>/
   index.html
   meta.json
-  catalog-items.html  # optional
+  catalog-items/
+    [id].html
+    assets/           # optional
   schema.json         # optional
   assets/             # optional
 ```
@@ -129,15 +157,15 @@ npm run check
 ```
 
 ## Deploy to Cloudflare R2
-`main` への `push` 時に GitHub Actions (`.github/workflows/ci.yml`) から R2 に同期します。
-同期は 2 フェーズです（1: upload/update, 2: delete）。
+Pushes to `main` trigger GitHub Actions (`.github/workflows/ci.yml`) to sync to R2.
+Sync runs in two phases: `upload/update`, then `delete`.
 
-同期対象:
+Synced paths:
 - `themes/web/`
 - `themes/card/`
 - `themes/package/`
 
-必要な GitHub Secrets:
+Required GitHub Secrets:
 - `R2_ACCOUNT_ID`
 - `R2_BUCKET`
 - `R2_ACCESS_KEY_ID`
