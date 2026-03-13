@@ -91,7 +91,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 - `error?: { message: string; isRetryable: boolean }`
 - `data?: { count: number; items: GiftCatalogItem[] }`
 - `sections: Record<string, GiftCatalogItem[]>` (derived from `data.items`)
-- `createImageUrl(path)` (image URL helper)
+- `createImageUrl(path, size?)` (image URL helper)
+  - `size`: `"thumbnail"` | `"zoom"`
 
 ### Methods
 
@@ -147,7 +148,7 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 `itemDetail` expects the page path format below:
 
-- `/s/:alias/catalog-items/:id`
+- `/:resourceType/:resourceId/catalog-items/:catalogItemId`
 
 If the path does not match this format, `error` is set and item detail cannot be fetched.
 
@@ -159,7 +160,8 @@ If the path does not match this format, `error` is set and item detail cannot be
 - `selectedVariationValues: Record<number, number | undefined>`
 - `selectedProduct?: BaseProduct`
   - For variant products, this remains `undefined` until all required variations are selected.
-- `createImageUrl(path)` (image URL helper)
+- `createImageUrl(path, size?)` (image URL helper)
+  - `size`: `"thumbnail"` | `"zoom"`
 
 ### Methods
 

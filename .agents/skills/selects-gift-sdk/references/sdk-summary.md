@@ -32,7 +32,7 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Async catalog list data source.
 - State: `loading`, `error`, `data`, derived `sections`.
 - Method: `fetch()` for retry/manual reload.
-- Helper: `createImageUrl(path)`.
+- Helper: `createImageUrl(path, size?)`.
 - Always render loading, error, and success states separately.
 
 ## `itemDetail`
@@ -40,7 +40,7 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Async catalog item detail data source.
 - State: `loading`, `error`, `data`, `selectedVariationValues`, `selectedProduct`.
 - Methods: `fetch()`, `updateVariationValue(variationId, variationValueId)`.
-- Helper: `createImageUrl(path)`.
+- Helper: `createImageUrl(path, size?)`.
 - Variant products require all required variation selections before `selectedProduct` resolves.
 - Selection state resets when a new item detail is loaded.
 - Depends on the catalog item detail URL contract from the full spec.

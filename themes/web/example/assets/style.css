@@ -1,4 +1,5 @@
 [x-cloak] {
+  /* biome-ignore lint/complexity/noImportantStyles: Required so x-cloak is not overridden by styles such as display: flex */
   display: none !important;
 }
 

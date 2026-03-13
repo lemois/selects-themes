@@ -26,11 +26,7 @@
       <template x-if="data">
         <article class="detail-card">
           <h1 x-text="data.name"></h1>
-          <img
-            :src="createImageUrl(data.catalogItemImages[0]?.image, 'large')"
-            alt="商品画像"
-            loading="lazy"
-          />
+          <img :src="createImageUrl(data.catalogItemImages[0]?.image, 'zoom')" alt="商品画像" loading="lazy" />
 
           <p x-show="data.description" x-text="data.description"></p>
 
