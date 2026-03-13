@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generic Theme Parameters",
+  "type": "object",
+  "properties": {
+    "foregroundImage": {
+      "type": "string",
+      "title": "前景画像",
+      "description": "ヒーローエリア前景の画像パス",
+      "x-ui": {
+        "widget": "file-picker",
+        "options": {
+          "accept": "image/*"
+        }
+      }
+    },
+    "backgroundImage": {
+      "type": "string",
+      "title": "背景画像",
+      "description": "ヒーローエリア背景の画像パス",
+      "x-ui": {
+        "widget": "file-picker",
+        "options": {
+          "accept": "image/*"
+        }
+      }
+    },
+    "logoImage": {
+      "type": "string",
+      "title": "ロゴ画像",
+      "description": "ヒーロー下に表示するロゴ画像パス",
+      "x-ui": {
+        "widget": "file-picker",
+        "options": {
+          "accept": "image/*"
+        }
+      }
+    },
+    "message": {
+      "type": "string",
+      "title": "メッセージ",
+      "description": "ロゴ下に表示する複数行メッセージ"
+    },
+    "styles": {
+      "type": "string",
+      "title": "追加 CSS",
+      "description": "テーマ全体に追加で適用する CSS"
+    },
+    "categoryNavigation": {
+      "type": "boolean",
+      "title": "カテゴリナビゲーション",
+      "description": "商品一覧のカテゴリタブを表示します"
+    },
+    "sections": {
+      "type": "array",
+      "title": "表示セクション順",
+      "description": "トップページ上部に表示するセクション順",
+      "items": {
+        "type": "string",
+        "enum": ["image", "text", "indicator", "items"]
+      },
+      "uniqueItems": true
+    },
+    "columns": {
+      "type": "number",
+      "title": "商品カラム数",
+      "description": "商品一覧のデスクトップ表示カラム数",
+      "enum": [1, 2, 3, 4]
+    }
+  },
+  "additionalProperties": false
+}

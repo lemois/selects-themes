@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>商品詳細</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <script src="../runtime-env.js" defer></script>
+    <script src="../assets/theme.js" defer></script>
+    <script src="https://selects.gift/sdk/v1.js" defer></script>
+    <script src="../assets/alpine-start.js" defer></script>
+  </head>
+  <body>
+    <main data-generic-detail-root>
+      <section x-data="itemDetail" x-cloak>
+        <a class="detail-navbar detail-navbar__link" href="../">
+          <span class="detail-navbar__icon" aria-hidden="true">‹</span>
+          <span class="detail-navbar__label">カタログギフトTOP</span>
+        </a>
+
+        <div class="generic-shell detail-page">
+          <template x-if="loading">
+            <div class="loading-host">
+              <div class="spinner" aria-label="読み込み中"></div>
+            </div>
+          </template>
+
+          <template x-if="error">
+            <div class="status-box">
+              <div x-text="error.message"></div>
+              <button
+                type="button"
+                class="status-box__button"
+                x-show="error.isRetryable"
+                @click="fetch()"
+              >
+                リトライ
+              </button>
+            </div>
+          </template>
+
+          <template x-if="data">
+            <div class="detail-layout">
+              <section class="detail-layout__gallery">
+                <div class="detail-gallery" data-detail-gallery>
+                  <template x-for="(image, index) in data.catalogItemImages" :key="image.id">
+                    <div
+                      class="detail-gallery__tile"
+                      data-detail-image
+                      :data-primary-image="index === 0"
+                      :data-preview-image="createImageUrl(image.image, 'thumbnail')"
+                    >
+                      <img
+                        :src="createImageUrl(image.image, 'thumbnail')"
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                      />
+                    </div>
+                  </template>
+
+                  <div class="detail-gallery__preview" data-detail-gallery-preview hidden>
+                    <img alt="" aria-hidden="true" loading="lazy" />
+                  </div>
+                </div>
+              </section>
+
+              <section class="detail-layout__sidebar">
+                <article class="detail-summary">
+                  <h1 class="detail-summary__name" x-text="data.name"></h1>
+
+                  <div class="preline-text" x-show="data.description" x-text="data.description"></div>
+
+                  <div
+                    class="detail-summary__specification preline-text"
+                    x-show="data.specification"
+                    x-text="data.specification"
+                  ></div>
+                </article>
+
+                <div
+                  class="comment comment--large detail-comment"
+                  x-show="data.commentImage || data.commentTitle || data.commentBody"
+                >
+                  <template x-if="data.commentImage">
+                    <img class="comment__image" :src="data.commentImage" alt="" loading="lazy" />
+                  </template>
+
+                  <div class="comment__content" x-show="data.commentTitle || data.commentBody">
+                    <div class="comment__body" x-show="data.commentBody">
+                      <div class="preline-text" x-text="data.commentBody"></div>
+                      <img
+                        class="comment__bubble-tip"
+                        :class="data.commentImage ? 'comment__bubble-tip--image' : (data.commentTitle ? 'comment__bubble-tip--title' : '')"
+                        src="../assets/bubble-tip.svg"
+                        alt=""
+                      />
+                    </div>
+
+                    <div
+                      class="comment__title preline-text"
+                      x-show="data.commentTitle"
+                      x-text="data.commentTitle"
+                    ></div>
+                  </div>
+                </div>
+
+                <section class="variant-form" x-show="data.product.type === 'VARIANT'">
+                  <template
+                    x-for="variation in data.product.current.productHistoryProductVariations"
+                    :key="variation.id"
+                  >
+                    <fieldset class="variant-form__fieldset">
+                      <legend
+                        class="variant-form__legend"
+                        x-text="variation.productVariation.name"
+                      ></legend>
+                      <div class="variant-form__values">
+                        <template
+                          x-for="value in variation.productVariation.productVariationValues"
+                          :key="value.id"
+                        >
+                          <label>
+                            <input
+                              class="variant-form__radio"
+                              type="radio"
+                              :name="`variation-${variation.productVariation.id}`"
+                              :checked="selectedVariationValues[variation.productVariation.id] === value.id"
+                              @change="updateVariationValue(variation.productVariation.id, value.id)"
+                            />
+                            <span class="variant-form__label" x-text="value.name"></span>
+                          </label>
+                        </template>
+                      </div>
+                    </fieldset>
+                  </template>
+                </section>
+
+                <section class="selected-product" x-show="selectedProduct">
+                  <strong>選択中の商品情報</strong>
+                  <div>
+                    商品ID:
+                    <span x-text="selectedProduct?.id"></span>
+                  </div>
+                </section>
+
+                <p
+                  class="selection-hint"
+                  x-show="data.product.type === 'VARIANT' && !selectedProduct"
+                >
+                  購入する商品を確定するため、すべてのバリエーションを選択してください。
+                </p>
+              </section>
+            </div>
+          </template>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

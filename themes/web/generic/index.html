@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SELECTS</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="./runtime-env.js" defer></script>
+    <script src="./assets/theme.js" defer></script>
+    <script src="https://selects.gift/sdk/v1.js" defer></script>
+    <script src="./assets/alpine-start.js" defer></script>
+  </head>
+  <body>
+    <main class="generic-shell" data-generic-index-root>
+      <div x-data="genericThemeParams()" x-cloak>
+        <section
+          class="hero"
+          :style="$data.backgroundImage ? `background-image:url(${$data.backgroundImage});` : ''"
+        >
+          <div
+            class="hero__foreground"
+            :style="$data.foregroundImage ? `background-image:url(${$data.foregroundImage});` : ''"
+          ></div>
+        </section>
+
+        <div data-sections-container>
+          <section class="top-logo" data-top-section="image" x-show="$data.logoImage">
+            <img class="top-logo__image" :src="$data.logoImage" alt="" />
+          </section>
+
+          <section class="top-message" data-top-section="text" x-show="$data.message">
+            <div class="preline-text" x-text="$data.message"></div>
+          </section>
+
+          <section class="top-indicator" data-top-section="indicator">
+            <span class="top-indicator__arrow" aria-hidden="true"></span>
+          </section>
+
+          <section data-top-section="items" x-data="items">
+            <template x-if="loading">
+              <div class="loading-host">
+                <div class="spinner" aria-label="読み込み中"></div>
+              </div>
+            </template>
+
+            <template x-if="error">
+              <div class="status-box">
+                <div x-text="error.message"></div>
+                <button
+                  type="button"
+                  class="status-box__button"
+                  x-show="error.isRetryable"
+                  @click="fetch()"
+                >
+                  リトライ
+                </button>
+              </div>
+            </template>
+
+            <template x-if="data">
+              <div>
+                <nav class="category-nav" data-category-nav hidden>
+                  <div
+                    class="category-nav__shadow category-nav__shadow--left"
+                    data-nav-shadow-left
+                    hidden
+                  ></div>
+                  <div
+                    class="category-nav__shadow category-nav__shadow--right"
+                    data-nav-shadow-right
+                    hidden
+                  ></div>
+                  <div class="category-nav__scroll" data-category-nav-scroll></div>
+                </nav>
+
+                <template x-for="(sectionItems, sectionName) in sections" :key="sectionName">
+                  <section
+                    class="category-section"
+                    :class="{ 'category-section--empty': !sectionName }"
+                    data-category-section
+                    :data-section-name="sectionName"
+                  >
+                    <header class="category-title" x-show="sectionName">
+                      <h2 class="category-title__main" x-text="sectionName"></h2>
+                    </header>
+
+                    <div class="catalog-grid columns-4" data-catalog-grid>
+                      <template x-for="item in sectionItems" :key="item.id">
+                        <a
+                          class="catalog-card"
+                          :href="`./catalog-items/${item.id}`"
+                          :aria-label="item.name"
+                        >
+                          <span class="sr-only">商品詳細を見る</span>
+                          <div class="catalog-card__image">
+                            <img
+                              :src="createImageUrl(item.catalogItemImages[0]?.image, 'thumbnail')"
+                              alt=""
+                              aria-hidden="true"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div class="catalog-card__name" x-text="item.name"></div>
+
+                          <div
+                            class="comment"
+                            x-show="item.commentImage || item.commentTitle || item.commentBody"
+                          >
+                            <template x-if="item.commentImage">
+                              <img
+                                class="comment__image"
+                                :src="item.commentImage"
+                                alt=""
+                                loading="lazy"
+                              />
+                            </template>
+
+                            <div
+                              class="comment__content"
+                              x-show="item.commentTitle || item.commentBody"
+                            >
+                              <div class="comment__body" x-show="item.commentBody">
+                                <div class="preline-text" x-text="item.commentBody"></div>
+                                <img
+                                  class="comment__bubble-tip"
+                                  :class="item.commentImage ? 'comment__bubble-tip--image' : (item.commentTitle ? 'comment__bubble-tip--title' : '')"
+                                  src="./assets/bubble-tip.svg"
+                                  alt=""
+                                />
+                              </div>
+                              <div
+                                class="comment__title preline-text"
+                                x-show="item.commentTitle"
+                                x-text="item.commentTitle"
+                              ></div>
+                            </div>
+                          </div>
+                        </a>
+                      </template>
+                    </div>
+                  </section>
+                </template>
+              </div>
+            </template>
+          </section>
+        </div>
+      </div>
+
+      <button type="button" class="to-top is-hidden" data-to-top-button aria-label="先頭へ戻る">
+        ↑
+      </button>
+    </main>
+  </body>
+</html>
