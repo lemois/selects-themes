@@ -57,9 +57,18 @@
   - `selects`
   - `printf '%s\n' '<request-json-from-help-schema>' | selects`
 
+## SDK documentation
+- The canonical Selects Gift SDK v1 spec is stored at `.agents/skills/selects-gift-sdk/references/selects-gift-sdk-v1.md`.
+- Do not keep the full SDK spec in active context unless the task needs exact behavior confirmation.
+- Read `.agents/skills/selects-gift-sdk/SKILL.md` first for the short workflow and distilled constraints.
+- Open the full spec in `references/` only when implementing or verifying SDK-specific details.
+- After consulting the full spec, reduce it to the minimum task-relevant notes before continuing.
+
 ## Local skills
 ### Available skills
-- `selects-cli`: Workflow for using the `selects` CLI bridge during theme development. Read `/Users/usp/repositories/selects-themes/docs/skills/selects-cli/SKILL.md`.
+- `selects-cli`: Workflow for using the `selects` CLI bridge during theme development. Read `.agents/skills/selects-cli/SKILL.md`.
+- `selects-gift-sdk`: Workflow and reference guide for theme work that consumes the Selects Gift SDK. Read `.agents/skills/selects-gift-sdk/SKILL.md`.
 
 ### Skill trigger
 - Use `selects-cli` whenever a task involves inspecting the current design app state, fetching active designs, listing designs, or deriving theme work from design data exposed through `selects`.
+- Use `selects-gift-sdk` whenever a task edits theme HTML that depends on SDK data objects, image URL helpers, loading or error handling, or catalog item detail behavior.
