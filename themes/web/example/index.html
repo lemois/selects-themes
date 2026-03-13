@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="./assets/style.css" />
     <script src="./runtime-env.js" defer></script>
     <script src="https://selects.gift/sdk/v1.js" defer></script>
+    <script src="./assets/alpine-start.js" defer></script>
   </head>
   <body>
     <main x-data="params" x-cloak>
       <h1>Hello world</h1>
-      <section x-show="keyVisual">
+      <section x-show="$data.keyVisual">
         <h2>key visual</h2>
-        <img :src="keyVisual" alt="キービジュアル" width="480" loading="lazy" />
+        <img :src="$data.keyVisual" alt="キービジュアル" width="480" loading="lazy" />
       </section>
-      <section x-show="accentColor">
+      <section x-show="$data.accentColor">
         <h2>accent color</h2>
         <div
-          :style="`background:${accentColor};width:96px;height:96px;border:1px solid #ccc;`"
+          :style="`background:${$data.accentColor};width:96px;height:96px;border:1px solid #ccc;`"
           aria-label="アクセントカラーのプレビュー"
         ></div>
-        <p x-text="accentColor"></p>
+        <p x-text="$data.accentColor ?? ''"></p>
       </section>
-      <section x-show="message">
+      <section x-show="$data.message">
         <h2>message</h2>
-        <p x-text="message"></p>
+        <p x-text="$data.message ?? ''"></p>
       </section>
 
       <section x-data="items" class="items-section">

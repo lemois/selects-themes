@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../assets/style.css" />
     <script src="../runtime-env.js" defer></script>
     <script src="https://selects.gift/sdk/v1.js" defer></script>
+    <script src="../assets/alpine-start.js" defer></script>
   </head>
   <body>
     <main x-data="itemDetail" x-cloak>
@@ -26,11 +27,7 @@
       <template x-if="data">
         <article class="detail-card">
           <h1 x-text="data.name"></h1>
-          <img
-            :src="createImageUrl(data.catalogItemImages[0]?.image, 'large')"
-            alt="商品画像"
-            loading="lazy"
-          />
+          <img :src="createImageUrl(data.catalogItemImages[0]?.image, 'zoom')" alt="商品画像" loading="lazy" />
 
           <p x-show="data.description" x-text="data.description"></p>
 

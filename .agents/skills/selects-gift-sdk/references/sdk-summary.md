@@ -6,9 +6,10 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 - Theme HTML must load the SDK script.
 - When `runtime-env.js` exists, load it before the SDK.
+- After the SDK script loads, theme code must call `window.Alpine.start()` directly.
 - Theme-local file references must use relative paths.
 - Local assets should be referenced relative to the current page.
-- Do not add a separate Alpine import in normal theme work.
+- Do not add a separate Alpine import in normal theme work; the SDK exposes `window.Alpine`.
 
 ## Available Alpine data objects
 
@@ -26,13 +27,15 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Exposes runtime `params`.
 - No async lifecycle.
 - Falls back to an empty object when params are absent.
+- Individual param properties may be absent when runtime values are unset.
+- In templates, access param values defensively via `$data.<key>` instead of assuming top-level properties exist.
 
 ## `items`
 
 - Async catalog list data source.
 - State: `loading`, `error`, `data`, derived `sections`.
 - Method: `fetch()` for retry/manual reload.
-- Helper: `createImageUrl(path)`.
+- Helper: `createImageUrl(path, size?)`.
 - Always render loading, error, and success states separately.
 
 ## `itemDetail`
@@ -40,7 +43,7 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Async catalog item detail data source.
 - State: `loading`, `error`, `data`, `selectedVariationValues`, `selectedProduct`.
 - Methods: `fetch()`, `updateVariationValue(variationId, variationValueId)`.
-- Helper: `createImageUrl(path)`.
+- Helper: `createImageUrl(path, size?)`.
 - Variant products require all required variation selections before `selectedProduct` resolves.
 - Selection state resets when a new item detail is loaded.
 - Depends on the catalog item detail URL contract from the full spec.

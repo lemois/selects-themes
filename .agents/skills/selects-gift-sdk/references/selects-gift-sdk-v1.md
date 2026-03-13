@@ -48,6 +48,9 @@ Before the SDK script is executed, `window.SELECTS_GIFT_RUNTIME_ENV` must be def
   };
 </script>
 <script src="/path/to/selects-gift-sdk/v1.js"></script>
+<script>
+  window.Alpine.start();
+</script>
 ```
 
 If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
@@ -56,7 +59,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 ## 3. Global behavior
 
-- The SDK starts Alpine automatically.
+- The SDK registers Alpine data on `window.Alpine`.
+- Theme code must call `window.Alpine.start()` directly after registering any custom Alpine data.
 - You can use Alpine data directly in templates via `x-data`.
 - Network requests are performed internally by the SDK.
 
@@ -70,7 +74,7 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 ```html
 <div x-data="params">
-  <p x-text="locale"></p>
+  <p x-text="$data.locale ?? ''"></p>
 </div>
 ```
 
@@ -78,6 +82,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 - `params` has no `loading`, `error`, or `fetch` lifecycle.
 - If runtime `params` is not provided, `params` resolves to an empty object.
+- Individual param properties may be absent when runtime values are unset.
+- Access param values defensively via `$data.<key>` in Alpine expressions.
 
 ---
 
@@ -91,7 +97,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 - `error?: { message: string; isRetryable: boolean }`
 - `data?: { count: number; items: GiftCatalogItem[] }`
 - `sections: Record<string, GiftCatalogItem[]>` (derived from `data.items`)
-- `createImageUrl(path)` (image URL helper)
+- `createImageUrl(path, size?)` (image URL helper)
+  - `size`: `"thumbnail"` | `"zoom"`
 
 ### Methods
 
@@ -147,7 +154,7 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 `itemDetail` expects the page path format below:
 
-- `/s/:alias/catalog-items/:id`
+- `/:resourceType/:resourceId/catalog-items/:catalogItemId`
 
 If the path does not match this format, `error` is set and item detail cannot be fetched.
 
@@ -159,7 +166,8 @@ If the path does not match this format, `error` is set and item detail cannot be
 - `selectedVariationValues: Record<number, number | undefined>`
 - `selectedProduct?: BaseProduct`
   - For variant products, this remains `undefined` until all required variations are selected.
-- `createImageUrl(path)` (image URL helper)
+- `createImageUrl(path, size?)` (image URL helper)
+  - `size`: `"thumbnail"` | `"zoom"`
 
 ### Methods
 
