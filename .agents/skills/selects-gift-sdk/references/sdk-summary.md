@@ -2,6 +2,12 @@
 
 Use this file first. Open the full spec only when this summary is insufficient.
 
+## Loading
+
+- Theme HTML must load the SDK script.
+- When `runtime-env.js` exists, load it before the SDK.
+- Do not add a separate Alpine import in normal theme work.
+
 ## Available Alpine data objects
 
 - `params`
@@ -10,8 +16,6 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 ## Template rules
 
-- The SDK script is already the supported integration point for theme HTML.
-- Do not add a separate Alpine import in normal theme work.
 - Treat SDK-managed network access as internal; templates should only consume exposed state and methods.
 - `runtime-env.js` may be loaded before the SDK, but the runtime variable contract itself does not need repository-specific handling here.
 

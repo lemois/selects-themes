@@ -5,13 +5,7 @@ description: Use this skill when building or updating Selects theme HTML that re
 
 # Selects Gift SDK
 
-Use this skill for theme work that consumes the Selects Gift SDK already loaded by:
-
-```html
-<script src="https://selects.gift/sdk/v1.js" defer></script>
-```
-
-`runtime-env.js` may be present before the SDK, but its runtime variable details are out of scope for this repository's theme work.
+Use this skill for theme work that consumes the Selects Gift SDK in theme HTML.
 
 ## When to use
 
@@ -27,15 +21,11 @@ Use this skill for theme work that consumes the Selects Gift SDK already loaded 
 3. Open `references/selects-gift-sdk-v1.md` only if exact SDK behavior or edge cases need confirmation.
 4. After reading the full spec, keep only the task-relevant constraints in working memory and continue from the summary, not from the full document.
 
-## Core rules
+## Constraints
 
-- Every theme HTML file must load the SDK script.
-- Do not add a separate Alpine import unless platform constraints explicitly require it.
-- `params` is synchronous and resolves to runtime params or an empty object.
-- `items` and `itemDetail` are asynchronous data sources; always render `loading`, `error`, and success states separately.
-- Use `createImageUrl(path)` from SDK data objects for item image URLs.
-- `itemDetail.selectedProduct` can stay `undefined` for variant products until all required variations are selected.
-- `itemDetail` depends on the catalog item detail URL contract described in the full spec.
+- Repository-level HTML loading rules live in `README.md`.
+- SDK usage rules live in `references/sdk-summary.md`.
+- Prefer the summary over the full spec unless exact behavior matters.
 
 ## References
 

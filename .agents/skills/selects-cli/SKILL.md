@@ -21,36 +21,13 @@ Use this skill for theme work that depends on design data from the local Selects
 3. Build a stdin JSON request that matches the schema.
 4. Pipe the JSON into `selects`.
 5. Parse the JSON response and use it as the source of truth for the current design app state.
-6. When a returned design resource includes `design.type` and a theme identifier, resolve the theme domain from `design.type` and use it with the theme identifier to find the matching theme directory in this repository.
-7. Read that theme's `schema.json` when present to understand the valid fields for `design.params`.
-
-## Request format
-
-`selects` accepts a JSON object on stdin and writes JSON to stdout.
-
-Do not rely on a hardcoded command list in this skill. The bridge is expected to grow, so the no-argument help output is the authoritative definition of supported commands, payloads, and examples for the current environment.
-
-The help output only defines the CLI request envelope. For any `selects` design resource, the meaning and shape of theme-specific fields under `design.params` come from the linked theme's `schema.json` in this repository when that file exists.
-
-## Common usage
-
-Get the schema help:
-
-```sh
-selects
-```
-
-Send a request described by the current help schema:
-
-```sh
-printf '%s\n' '<request-json-from-help-schema>' | selects
-```
+6. When a design resource links to a theme, resolve the theme directory from `design.type` and the theme identifier, then read that theme's `schema.json` when present for `design.params`.
 
 ## Constraints
 
 - The design app must be running. If it is not running, `selects` will not work.
 - Treat the help schema from `selects` as authoritative.
-- Treat returned design resources as linked to this repository's theme directories, with the domain determined by `design.type`.
-- Use the linked theme's `schema.json` as the source of truth for `design.params` fields when available.
 - Keep requests minimal and schema-valid.
 - When the task is tied to the current design, inspect the help output and use the active-design command defined there.
+
+See `README.md` for the repository-level mapping between `design.type`, theme directories, and `schema.json`.
