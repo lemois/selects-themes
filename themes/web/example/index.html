@@ -27,27 +27,45 @@
         <h2>message</h2>
         <p x-text="message"></p>
       </section>
-      <section x-data="items">
-        <template x-for="(sectionItems, sectionName) in sections" :key="sectionName">
-          <article>
-            <h2 x-text="sectionName"></h2>
-            <ul>
-              <template x-for="item in sectionItems" :key="item.id">
-                <li>
-                  <p>
-                    <strong x-text="item.name"></strong>
-                  </p>
-                  <img
-                    :src="createImageUrl(item.catalogItemImages[0]?.image, 'thumbnail')"
-                    alt="商品画像"
-                    :alt="item.name ? `${item.name} の商品画像` : '商品画像'"
-                    width="240"
-                    loading="lazy"
-                  />
-                </li>
-              </template>
-            </ul>
-          </article>
+
+      <section x-data="items" class="items-section">
+        <h2>商品一覧</h2>
+
+        <template x-if="loading">
+          <p>商品を読み込んでいます...</p>
+        </template>
+
+        <template x-if="error">
+          <div class="status-box">
+            <p x-text="error.message"></p>
+            <button type="button" x-show="error.isRetryable" @click="fetch()">再読み込み</button>
+          </div>
+        </template>
+
+        <template x-if="data">
+          <div>
+            <template x-for="(sectionItems, sectionName) in sections" :key="sectionName">
+              <article>
+                <h3 x-text="sectionName"></h3>
+                <ul>
+                  <template x-for="item in sectionItems" :key="item.id">
+                    <li>
+                      <p>
+                        <strong x-text="item.name"></strong>
+                      </p>
+                      <img
+                        :src="createImageUrl(item.catalogItemImages[0]?.image, 'thumbnail')"
+                        alt="商品画像"
+                        width="240"
+                        loading="lazy"
+                      />
+                      <a class="button-link" :href="`./catalog-items/${item.id}`">商品詳細を見る</a>
+                    </li>
+                  </template>
+                </ul>
+              </article>
+            </template>
+          </div>
         </template>
       </section>
     </main>
