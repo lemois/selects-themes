@@ -28,7 +28,7 @@
         <p x-text="message"></p>
       </section>
       <section x-data="items">
-        <template x-for="([sectionName, sectionItems]) in Object.entries(sections)" :key="sectionName">
+        <template x-for="(sectionItems, sectionName) in sections" :key="sectionName">
           <article>
             <h2 x-text="sectionName"></h2>
             <ul>
