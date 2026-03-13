@@ -48,6 +48,9 @@ Before the SDK script is executed, `window.SELECTS_GIFT_RUNTIME_ENV` must be def
   };
 </script>
 <script src="/path/to/selects-gift-sdk/v1.js"></script>
+<script>
+  window.Alpine.start();
+</script>
 ```
 
 If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
@@ -56,7 +59,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 ## 3. Global behavior
 
-- The SDK starts Alpine automatically.
+- The SDK registers Alpine data on `window.Alpine`.
+- Theme code must call `window.Alpine.start()` directly after registering any custom Alpine data.
 - You can use Alpine data directly in templates via `x-data`.
 - Network requests are performed internally by the SDK.
 

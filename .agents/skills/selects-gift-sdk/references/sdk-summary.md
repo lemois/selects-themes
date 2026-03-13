@@ -6,9 +6,10 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 - Theme HTML must load the SDK script.
 - When `runtime-env.js` exists, load it before the SDK.
+- After the SDK script loads, theme code must call `window.Alpine.start()` directly.
 - Theme-local file references must use relative paths.
 - Local assets should be referenced relative to the current page.
-- Do not add a separate Alpine import in normal theme work.
+- Do not add a separate Alpine import in normal theme work; the SDK exposes `window.Alpine`.
 
 ## Available Alpine data objects
 

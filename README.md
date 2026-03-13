@@ -26,6 +26,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 
 ```html
 <script src="https://selects.gift/sdk/v1.js" defer></script>
+<script src="./assets/alpine-start.js" defer></script>
 ```
 
 - When `runtime-env.js` is present, load it before the SDK:
@@ -33,7 +34,11 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 ```html
 <script src="./runtime-env.js" defer></script>
 <script src="https://selects.gift/sdk/v1.js" defer></script>
+<script src="./assets/alpine-start.js" defer></script>
 ```
+
+- After the SDK script loads, theme code must call `window.Alpine.start()` directly.
+- In normal theme work, do not add a separate Alpine import; the SDK exposes `window.Alpine`.
 
 - Local file references inside a theme directory must always use relative paths, whether they appear in HTML, CSS, or JS.
 - Reference local assets using paths relative to the current page. For example, `catalog-items/[id].html` can use `../assets/...` and `../runtime-env.js`.
@@ -42,7 +47,6 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - This also applies to references inside CSS and JS: shared pages must not use parent-directory references such as `../assets`.
 - Shared pages are expected to be consumed by symlinking the entire directory that contains them.
 - During deploy, `aws s3 sync` uploads symlinks as file contents, so links are not preserved as links on R2.
-- Do not add a separate Alpine import unless platform constraints explicitly require it.
 - Links should be written without `.html` because the server resolves the extension.
 - There is currently no explicit repository rule that distinguishes `../index` from `../` for returning to a directory index; prefer directory-style links such as `./` and `../`.
 
@@ -52,18 +56,24 @@ Examples:
 <!-- index.html -->
 <link rel="stylesheet" href="./assets/style.css" />
 <script src="./runtime-env.js" defer></script>
+<script src="https://selects.gift/sdk/v1.js" defer></script>
+<script src="./assets/alpine-start.js" defer></script>
 ```
 
 ```html
 <!-- catalog-items/[id].html -->
 <link rel="stylesheet" href="../assets/style.css" />
 <script src="../runtime-env.js" defer></script>
+<script src="https://selects.gift/sdk/v1.js" defer></script>
+<script src="../assets/alpine-start.js" defer></script>
 ```
 
 ```html
 <!-- catalog-items/[id].html used as a shared page -->
 <link rel="stylesheet" href="./assets/style.css" />
 <script src="../runtime-env.js" defer></script>
+<script src="https://selects.gift/sdk/v1.js" defer></script>
+<script src="./assets/alpine-start.js" defer></script>
 ```
 
 Minimal shape:
