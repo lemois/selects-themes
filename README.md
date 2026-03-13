@@ -10,9 +10,9 @@ Theme definitions for three product domains.
 - `.agents/skills/*/references/*`: long-form references; open only on demand.
 
 ## Directory structure
-- `themes/web`: オンラインカタログギフト用テーマ
-- `themes/card`: アイテムカードセット用テーマ
-- `themes/package`: スリーブなどの包装用テーマ
+- `themes/web`: themes for online catalog gifts
+- `themes/card`: themes for item card sets
+- `themes/package`: themes for packaging such as sleeves
 
 Each direct child directory under `themes/web` / `themes/card` / `themes/package` is treated as a theme directory.
 
@@ -35,13 +35,15 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 <script src="https://selects.gift/sdk/v1.js" defer></script>
 ```
 
-- Theme directory内のローカルファイル参照は、HTML / CSS / JS を問わずすべて相対パスで記述してください。
-- ローカルアセットは、そのページからの相対パスで参照してください。
-- ローカル開発では、共通化のために theme 内のファイルやディレクトリを symbolic link で参照して構いません。
-- Deploy では `aws s3 sync` により symbolic link は実体としてアップロードされ、R2 上で link のままは保持されません。
+- Local file references inside a theme directory must always use relative paths, whether they appear in HTML, CSS, or JS.
+- Reference local assets using paths relative to the current page. For example, `catalog-items/[id].html` can use `../assets/...` and `../runtime-env.js`.
+- Files above the theme directory cannot be referenced, so every referenced file must live under that theme.
+- Shared pages must resolve all of their own asset references through `./assets` in the same directory as the page itself.
+- This also applies to references inside CSS and JS: shared pages must not use parent-directory references such as `../assets`.
+- Shared pages are expected to be consumed by symlinking the entire directory that contains them.
+- During deploy, `aws s3 sync` uploads symlinks as file contents, so links are not preserved as links on R2.
 - Do not add a separate Alpine import unless platform constraints explicitly require it.
 - Links should be written without `.html` because the server resolves the extension.
-- 共通化しやすさのため、アセットはページと同階層の `assets/` に置いて構いません。
 
 Examples:
 
@@ -52,15 +54,15 @@ Examples:
 ```
 
 ```html
-<!-- catalog-items/[id].html -> theme 直下の assets を使う -->
+<!-- catalog-items/[id].html -->
 <link rel="stylesheet" href="../assets/style.css" />
 <script src="../runtime-env.js" defer></script>
 ```
 
 ```html
-<!-- catalog-items/[id].html -> catalog-items/ 配下で完結させる -->
+<!-- catalog-items/[id].html used as a shared page -->
 <link rel="stylesheet" href="./assets/style.css" />
-<script src="./runtime-env.js" defer></script>
+<script src="../runtime-env.js" defer></script>
 ```
 
 Minimal shape:
@@ -155,15 +157,15 @@ npm run check
 ```
 
 ## Deploy to Cloudflare R2
-`main` への `push` 時に GitHub Actions (`.github/workflows/ci.yml`) から R2 に同期します。
-同期は 2 フェーズです（1: upload/update, 2: delete）。
+Pushes to `main` trigger GitHub Actions (`.github/workflows/ci.yml`) to sync to R2.
+Sync runs in two phases: `upload/update`, then `delete`.
 
-同期対象:
+Synced paths:
 - `themes/web/`
 - `themes/card/`
 - `themes/package/`
 
-必要な GitHub Secrets:
+Required GitHub Secrets:
 - `R2_ACCOUNT_ID`
 - `R2_BUCKET`
 - `R2_ACCESS_KEY_ID`
