@@ -38,7 +38,7 @@
                     <strong x-text="item.name"></strong>
                   </p>
                   <img
-                    :src="item.catalogItemImages[0]?.image"
+                    :src="createImageUrl(item.catalogItemImages[0]?.image, 'thumbnail')"
                     alt="商品画像"
                     :alt="item.name ? `${item.name} の商品画像` : '商品画像'"
                     width="240"
