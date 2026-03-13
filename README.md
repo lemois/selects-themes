@@ -44,6 +44,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - During deploy, `aws s3 sync` uploads symlinks as file contents, so links are not preserved as links on R2.
 - Do not add a separate Alpine import unless platform constraints explicitly require it.
 - Links should be written without `.html` because the server resolves the extension.
+- There is currently no explicit repository rule that distinguishes `../index` from `../` for returning to a directory index; prefer directory-style links such as `./` and `../`.
 
 Examples:
 

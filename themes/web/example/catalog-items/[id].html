@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>商品詳細</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <script src="../runtime-env.js" defer></script>
+    <script src="https://selects.gift/sdk/v1.js" defer></script>
+  </head>
+  <body>
+    <main x-data="itemDetail" x-cloak>
+      <p><a href="../">← 商品一覧へ戻る</a></p>
+
+      <template x-if="loading">
+        <p>商品詳細を読み込んでいます...</p>
+      </template>
+
+      <template x-if="error">
+        <div class="status-box">
+          <p x-text="error.message"></p>
+          <button type="button" x-show="error.isRetryable" @click="fetch()">再読み込み</button>
+        </div>
+      </template>
+
+      <template x-if="data">
+        <article class="detail-card">
+          <h1 x-text="data.name"></h1>
+          <img
+            :src="createImageUrl(data.catalogItemImages[0]?.image, 'large')"
+            alt="商品画像"
+            loading="lazy"
+          />
+
+          <p x-show="data.description" x-text="data.description"></p>
+
+          <template x-if="data.product.type === 'VARIANT'">
+            <section class="variations">
+              <h2>バリエーションを選択</h2>
+              <template
+                x-for="variation in data.product.current.productHistoryProductVariations"
+                :key="variation.id"
+              >
+                <fieldset>
+                  <legend x-text="variation.productVariation.name"></legend>
+                  <div class="variation-values">
+                    <template
+                      x-for="value in variation.productVariation.productVariationValues"
+                      :key="value.id"
+                    >
+                      <label>
+                        <input
+                          type="radio"
+                          :name="`variation-${variation.productVariation.id}`"
+                          :checked="selectedVariationValues[variation.productVariation.id] === value.id"
+                          @change="updateVariationValue(variation.productVariation.id, value.id)"
+                        />
+                        <span x-text="value.name"></span>
+                      </label>
+                    </template>
+                  </div>
+                </fieldset>
+              </template>
+            </section>
+          </template>
+
+          <template x-if="selectedProduct">
+            <section class="selected-product">
+              <h2>選択中の商品情報</h2>
+              <p>
+                商品ID:
+                <span x-text="selectedProduct.id"></span>
+              </p>
+            </section>
+          </template>
+
+          <template x-if="data.product.type === 'VARIANT' && !selectedProduct">
+            <p>購入する商品を確定するため、すべてのバリエーションを選択してください。</p>
+          </template>
+        </article>
+      </template>
+    </main>
+  </body>
+</html>
