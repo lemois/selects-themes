@@ -27,6 +27,8 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Exposes runtime `params`.
 - No async lifecycle.
 - Falls back to an empty object when params are absent.
+- Individual param properties may be absent when runtime values are unset.
+- In templates, access param values defensively via `$data.<key>` instead of assuming top-level properties exist.
 
 ## `items`
 

@@ -74,7 +74,7 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 ```html
 <div x-data="params">
-  <p x-text="locale"></p>
+  <p x-text="$data.locale ?? ''"></p>
 </div>
 ```
 
@@ -82,6 +82,8 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 - `params` has no `loading`, `error`, or `fetch` lifecycle.
 - If runtime `params` is not provided, `params` resolves to an empty object.
+- Individual param properties may be absent when runtime values are unset.
+- Access param values defensively via `$data.<key>` in Alpine expressions.
 
 ---
 
