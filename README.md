@@ -178,10 +178,15 @@ npm run check
 Pushes to `main` trigger GitHub Actions (`.github/workflows/ci.yml`) to sync to R2.
 Sync runs in two phases: `upload/update`, then `delete`.
 
-Synced paths:
+Repository source paths:
 - `themes/web/`
 - `themes/card/`
 - `themes/package/`
+
+R2 destination paths:
+- `web/`
+- `card/`
+- `package/`
 
 Required GitHub Secrets:
 - `R2_ACCOUNT_ID`

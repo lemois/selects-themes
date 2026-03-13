@@ -14,7 +14,8 @@ for dir in "${SYNC_DIRS[@]}"; do
     continue
   fi
 
-  dest="s3://${R2_BUCKET}/${dir}/"
+  domain="${dir#themes/}"
+  dest="s3://${R2_BUCKET}/${domain}/"
   echo "Sync ${dir} -> ${dest}"
 
   # Phase 1: upload/update only (no deletions yet)
