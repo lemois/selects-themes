@@ -20,7 +20,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 - `index.html` is required.
 - `meta.json` is required.
 - `schema.json` is optional.
-- `catalog-items.html` is optional (reserved page for product detail).
+- `catalog-items/[id].html` is required (reserved page for product detail).
 - You can add any other `.html` pages as needed.
 - Every HTML file in a theme directory must load the SDK script:
 
@@ -35,9 +35,33 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 <script src="https://selects.gift/sdk/v1.js" defer></script>
 ```
 
+- Theme directory内のローカルファイル参照は、HTML / CSS / JS を問わずすべて相対パスで記述してください。
+- ローカルアセットは、そのページからの相対パスで参照してください。
+- ローカル開発では、共通化のために theme 内のファイルやディレクトリを symbolic link で参照して構いません。
+- Deploy では `aws s3 sync` により symbolic link は実体としてアップロードされ、R2 上で link のままは保持されません。
 - Do not add a separate Alpine import unless platform constraints explicitly require it.
 - Links should be written without `.html` because the server resolves the extension.
-- If theme-specific assets are needed, place them in `assets/` under the same theme directory.
+- 共通化しやすさのため、アセットはページと同階層の `assets/` に置いて構いません。
+
+Examples:
+
+```html
+<!-- index.html -->
+<link rel="stylesheet" href="./assets/style.css" />
+<script src="./runtime-env.js" defer></script>
+```
+
+```html
+<!-- catalog-items/[id].html -> theme 直下の assets を使う -->
+<link rel="stylesheet" href="../assets/style.css" />
+<script src="../runtime-env.js" defer></script>
+```
+
+```html
+<!-- catalog-items/[id].html -> catalog-items/ 配下で完結させる -->
+<link rel="stylesheet" href="./assets/style.css" />
+<script src="./runtime-env.js" defer></script>
+```
 
 Minimal shape:
 
@@ -45,7 +69,9 @@ Minimal shape:
 themes/<domain>/<theme>/
   index.html
   meta.json
-  catalog-items.html  # optional
+  catalog-items/
+    [id].html
+    assets/           # optional
   schema.json         # optional
   assets/             # optional
 ```
