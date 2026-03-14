@@ -13,7 +13,7 @@
   <body>
     <main data-generic-detail-root>
       <section x-data="itemDetail" x-cloak>
-        <a class="detail-navbar detail-navbar__link" href="../">
+        <a class="detail-navbar detail-navbar__link" x-data="utils" href="../" @click="backIfSameOrigin">
           <span class="detail-navbar__icon" aria-hidden="true">‹</span>
           <span class="detail-navbar__label">カタログギフトTOP</span>
         </a>

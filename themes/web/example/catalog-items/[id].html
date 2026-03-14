@@ -11,7 +11,9 @@
   </head>
   <body>
     <main x-data="itemDetail" x-cloak>
-      <p><a href="../">← 商品一覧へ戻る</a></p>
+      <p>
+        <a x-data="utils" href="../" @click="backIfSameOrigin">← 商品一覧へ戻る</a>
+      </p>
 
       <template x-if="loading">
         <p>商品詳細を読み込んでいます...</p>
