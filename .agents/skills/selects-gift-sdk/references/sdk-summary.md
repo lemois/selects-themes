@@ -16,6 +16,7 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - `params`
 - `items`
 - `itemDetail`
+- `utils`
 
 ## Template rules
 
@@ -47,6 +48,12 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Variant products require all required variation selections before `selectedProduct` resolves.
 - Selection state resets when a new item detail is loaded.
 - Depends on the catalog item detail URL contract from the full spec.
+
+## `utils`
+
+- Small synchronous template helpers with no remote fetch lifecycle.
+- Method: `backIfSameOrigin(event)`.
+- Use it on real anchors so same-origin back navigation can prefer `history.back()` and fall back to the anchor `href`.
 
 ## Escalate to full spec when
 

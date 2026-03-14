@@ -164,6 +164,7 @@ Use `.agents/skills/selects-cli/SKILL.md` when the task depends on active design
 - Read `.agents/skills/selects-gift-sdk/SKILL.md` first.
 - Use `.agents/skills/selects-gift-sdk/references/sdk-summary.md` as the default SDK reference.
 - Open the full spec only when exact behavior, URL contracts, or edge cases matter.
+- The SDK also exposes a `utils` Alpine data object. See the SDK references for `backIfSameOrigin(event)`.
 - Theme bootstrap code that already auto-runs on page load must not also be invoked from HTML with `x-init="init()"` or similar manual `init()` calls.
 - `params` may omit properties when runtime values are unset, so theme templates must access param values defensively via Alpine's `$data` object, for example `x-show="$data.heroImage"` or `x-text="$data.message ?? ''"`.
 

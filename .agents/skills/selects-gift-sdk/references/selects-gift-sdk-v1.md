@@ -14,6 +14,7 @@ After loading the SDK script, these Alpine data objects are available:
 - `params`
 - `items`
 - `itemDetail`
+- `utils`
 
 ---
 
@@ -242,7 +243,39 @@ If the path does not match this format, `error` is set and item detail cannot be
 
 ---
 
-## 7. Error handling guidance for theme developers
+## 7. `utils` data
+
+`utils` exposes small template helpers that do not need remote data fetching.
+
+### Methods
+
+- `backIfSameOrigin(event)`
+  - Intended for `<a>` click handlers.
+  - Works as a same-origin back helper.
+  - If `document.referrer` is the same origin as the current page and browser history is available, calls `window.history.back()`.
+  - Otherwise, allows the anchor's default navigation to continue.
+
+### Recommended usage with `<a>`
+
+Keep a real `href` for no-JavaScript fallback and SEO/crawlability, then intercept the click in Alpine.
+
+```html
+<a
+  x-data="utils"
+  href="../"
+  @click="backIfSameOrigin"
+>
+  Back to list
+</a>
+```
+
+### Notes
+
+- This is intended for detail-to-list navigation where bfcache benefits are expected on `history.back()`.
+
+---
+
+## 8. Error handling guidance for theme developers
 
 For robust theme UX:
 
@@ -252,7 +285,7 @@ For robust theme UX:
 
 ---
 
-## 8. Scope of this guide
+## 9. Scope of this guide
 
 This guide intentionally focuses on **public usage behavior** for SDK consumers.
 It does not describe internal implementation, private closures, or internal GraphQL client details.
