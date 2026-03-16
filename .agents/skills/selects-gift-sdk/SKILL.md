@@ -26,9 +26,11 @@ Use this skill for theme work that consumes the Selects Gift SDK in theme HTML.
 - Repository-level HTML loading rules live in `README.md`.
 - Repository-level relative path rules live in `README.md`.
 - SDK usage rules live in `references/sdk-summary.md`.
+- The standard theme-specific one-shot init pattern lives in `references/theme-init-patterns.md`.
 - Prefer the summary over the full spec unless exact behavior matters.
 
 ## References
 
 - Summary: `references/sdk-summary.md`
+- Theme init patterns: `references/theme-init-patterns.md`
 - Full spec: `references/selects-gift-sdk-v1.md`

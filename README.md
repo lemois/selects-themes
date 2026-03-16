@@ -26,7 +26,7 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 
 ```html
 <script src="https://selects.gift/sdk/v1.js" defer></script>
-<script src="./assets/alpine-start.js" defer></script>
+<script src="./assets/theme.js" defer></script>
 ```
 
 - When `runtime-env.js` is present, load it before the SDK:
@@ -34,10 +34,11 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 ```html
 <script src="./runtime-env.js" defer></script>
 <script src="https://selects.gift/sdk/v1.js" defer></script>
-<script src="./assets/alpine-start.js" defer></script>
+<script src="./assets/theme.js" defer></script>
 ```
 
-- After the SDK script loads, theme code must call `window.Alpine.start()` directly.
+- After the SDK script loads, theme code must call `window.Alpine.start()` directly from that theme script.
+- For theme-specific one-shot initialization that depends on SDK Alpine data such as `params` or `itemDetail`, prefer `x-init="window.selectsInit($el, $data)"` and define `window.selectsInit` inside the page's loaded theme script.
 - In normal theme work, do not add a separate Alpine import; the SDK exposes `window.Alpine`.
 
 - Local file references inside a theme directory must always use relative paths, whether they appear in HTML, CSS, or JS.
@@ -57,7 +58,7 @@ Examples:
 <link rel="stylesheet" href="./assets/style.css" />
 <script src="./runtime-env.js" defer></script>
 <script src="https://selects.gift/sdk/v1.js" defer></script>
-<script src="./assets/alpine-start.js" defer></script>
+<script src="./assets/theme.js" defer></script>
 ```
 
 ```html
@@ -65,7 +66,7 @@ Examples:
 <link rel="stylesheet" href="../assets/style.css" />
 <script src="../runtime-env.js" defer></script>
 <script src="https://selects.gift/sdk/v1.js" defer></script>
-<script src="../assets/alpine-start.js" defer></script>
+<script src="../assets/theme.js" defer></script>
 ```
 
 ```html
@@ -73,7 +74,7 @@ Examples:
 <link rel="stylesheet" href="./assets/style.css" />
 <script src="../runtime-env.js" defer></script>
 <script src="https://selects.gift/sdk/v1.js" defer></script>
-<script src="./assets/alpine-start.js" defer></script>
+<script src="./assets/theme.js" defer></script>
 ```
 
 Minimal shape:
@@ -163,9 +164,11 @@ Use `.agents/skills/selects-cli/SKILL.md` when the task depends on active design
 - The canonical SDK spec is `.agents/skills/selects-gift-sdk/references/selects-gift-sdk-v1.md`.
 - Read `.agents/skills/selects-gift-sdk/SKILL.md` first.
 - Use `.agents/skills/selects-gift-sdk/references/sdk-summary.md` as the default SDK reference.
+- Use `.agents/skills/selects-gift-sdk/references/theme-init-patterns.md` for the standard theme-specific initialization pattern.
 - Open the full spec only when exact behavior, URL contracts, or edge cases matter.
 - The SDK also exposes a `utils` Alpine data object. See the SDK references for `backIfSameOrigin(event)`.
 - Theme bootstrap code that already auto-runs on page load must not also be invoked from HTML with `x-init="init()"` or similar manual `init()` calls.
+- `x-init="window.selectsInit($el, $data)"` is the standard exception when a theme needs one-shot initialization based on SDK Alpine data.
 - `params` may omit properties when runtime values are unset, so theme templates must access param values defensively via Alpine's `$data` object, for example `x-show="$data.heroImage"` or `x-text="$data.message ?? ''"`.
 
 ## Validation

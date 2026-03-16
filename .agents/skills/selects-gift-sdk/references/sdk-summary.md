@@ -6,7 +6,8 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 - Theme HTML must load the SDK script.
 - When `runtime-env.js` exists, load it before the SDK.
-- After the SDK script loads, theme code must call `window.Alpine.start()` directly.
+- Theme bootstrap code should live in the page's theme script such as `assets/theme.js`.
+- After the SDK script loads, theme code must call `window.Alpine.start()` directly from that theme script.
 - Theme-local file references must use relative paths.
 - Local assets should be referenced relative to the current page.
 - Do not add a separate Alpine import in normal theme work; the SDK exposes `window.Alpine`.
@@ -22,6 +23,8 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 - Treat SDK-managed network access as internal; templates should only consume exposed state and methods.
 - `runtime-env.js` may be loaded before the SDK, but the runtime variable contract itself does not need repository-specific handling here.
+- When a theme needs one-shot initialization based on SDK Alpine data, prefer `x-init="window.selectsInit($el, $data)"` and define `window.selectsInit` in the loaded page theme script.
+- Do not combine that pattern with `x-init="init()"` or similar manual calls for bootstrap code that already auto-runs.
 
 ## `params`
 
