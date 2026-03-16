@@ -6,13 +6,12 @@
     <title>SELECTS</title>
     <link rel="stylesheet" href="./assets/style.css" />
     <script src="./runtime-env.js" defer></script>
-    <script src="./assets/theme.js" defer></script>
     <script src="https://selects.gift/sdk/v1.js" defer></script>
-    <script src="./assets/alpine-start.js" defer></script>
+    <script src="./assets/theme.js" defer></script>
   </head>
   <body>
     <main class="generic-shell" data-generic-index-root>
-      <div x-data="genericThemeParams()" x-cloak>
+      <div x-data="params" x-init="window.selectsInit($el, $data)" x-cloak>
         <section
           class="hero"
           :style="$data.backgroundImage ? `background-image:url(${$data.backgroundImage});` : ''"

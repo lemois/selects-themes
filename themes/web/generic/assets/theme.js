@@ -1,13 +1,6 @@
 (() => {
   const DEFAULT_SECTIONS = ["image", "text", "indicator", "items"];
 
-  function getParams() {
-    const params = window.SELECTS_GIFT_RUNTIME_ENV?.params;
-    return params && typeof params === "object" ? params : {};
-  }
-
-  window.genericThemeParams = getParams;
-
   function normalizeSections(value) {
     return Array.isArray(value)
       ? value.filter((section) => DEFAULT_SECTIONS.includes(section))
@@ -20,8 +13,7 @@
     return Math.min(4, Math.max(1, Math.round(number)));
   }
 
-  function injectStyles() {
-    const params = getParams();
+  function injectStyles(params) {
     if (typeof params.styles !== "string" || params.styles.length === 0) return;
 
     const style = document.createElement("style");
@@ -30,14 +22,10 @@
     document.head.appendChild(style);
   }
 
-  function applyTopSectionsOrder() {
-    const root = document.querySelector("[data-generic-index-root]");
-    if (!root) return;
-
+  function applyTopSectionsOrder(root, params) {
     const container = root.querySelector("[data-sections-container]");
     if (!container) return;
 
-    const params = getParams();
     const orderedSections = normalizeSections(params.sections);
 
     orderedSections.forEach((sectionName) => {
@@ -59,8 +47,8 @@
     });
   }
 
-  function setupToTop() {
-    const button = document.querySelector("[data-to-top-button]");
+  function setupToTop(root) {
+    const button = root.querySelector("[data-to-top-button]");
     if (!button) return;
 
     const updateVisibility = () => {
@@ -75,12 +63,7 @@
     window.addEventListener("scroll", updateVisibility, { passive: true });
   }
 
-  function setupCategoryNavigation() {
-    const root = document.querySelector("[data-generic-index-root]");
-    if (!root) return;
-
-    const params = getParams();
-
+  function setupCategoryNavigation(root, params) {
     const refresh = () => {
       const nav = root.querySelector("[data-category-nav]");
       const navScroll = root.querySelector("[data-category-nav-scroll]");
@@ -200,89 +183,12 @@
     refresh();
   }
 
-  function setupDetailGallery() {
-    const root = document.querySelector("[data-generic-detail-root]");
-    if (!root) return;
+  window.selectsInit = (root, params) => {
+    injectStyles(params);
+    applyTopSectionsOrder(root, params);
+    setupToTop(root);
+    setupCategoryNavigation(root, params);
+  };
 
-    const bind = () => {
-      const gallery = root.querySelector("[data-detail-gallery]");
-      const preview = root.querySelector("[data-detail-gallery-preview]");
-      const previewImage = preview?.querySelector("img");
-      if (
-        !gallery ||
-        !preview ||
-        !previewImage ||
-        gallery.dataset.bound === "true"
-      ) {
-        return;
-      }
-
-      gallery.dataset.bound = "true";
-
-      const isMobile = () => window.innerWidth <= 767;
-
-      gallery.addEventListener("mouseover", (event) => {
-        const tile = event.target.closest("[data-detail-image]");
-        if (!tile || isMobile()) return;
-        const previewPath = tile.getAttribute("data-preview-image");
-        const isPrimary = tile.getAttribute("data-primary-image") === "true";
-        if (!previewPath || isPrimary) return;
-        preview.hidden = false;
-        previewImage.src = previewPath;
-      });
-
-      gallery.addEventListener("mouseout", (event) => {
-        const tile = event.target.closest("[data-detail-image]");
-        if (!tile || isMobile()) return;
-        preview.hidden = true;
-        previewImage.removeAttribute("src");
-      });
-
-      gallery.addEventListener("click", (event) => {
-        if (!isMobile()) return;
-        const tiles = gallery.querySelectorAll("[data-detail-image]");
-        if (tiles.length <= 1) return;
-
-        const clickX = event.clientX;
-        const imageFullWidth = 310;
-        const currentImageIndex = Math.round(
-          gallery.scrollLeft / imageFullWidth,
-        );
-        const targetIndex =
-          clickX < gallery.clientWidth / 2
-            ? Math.max(0, currentImageIndex - 1)
-            : Math.min(tiles.length - 1, currentImageIndex + 1);
-
-        gallery.scrollTo({
-          left: targetIndex * imageFullWidth,
-          behavior: "smooth",
-        });
-      });
-    };
-
-    const watch = new MutationObserver(() => {
-      bind();
-    });
-
-    watch.observe(root, {
-      childList: true,
-      subtree: true,
-    });
-
-    bind();
-  }
-
-  function init() {
-    injectStyles();
-    applyTopSectionsOrder();
-    setupToTop();
-    setupCategoryNavigation();
-    setupDetailGallery();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
+  window.Alpine.start();
 })();

@@ -6,13 +6,12 @@
     <title>商品詳細</title>
     <link rel="stylesheet" href="../assets/style.css" />
     <script src="../runtime-env.js" defer></script>
-    <script src="../assets/theme.js" defer></script>
     <script src="https://selects.gift/sdk/v1.js" defer></script>
-    <script src="../assets/alpine-start.js" defer></script>
+    <script src="./assets/theme.js" defer></script>
   </head>
   <body>
     <main data-generic-detail-root>
-      <section x-data="itemDetail" x-cloak>
+      <section x-data="itemDetail" x-init="window.selectsInit($el, $data)" x-cloak>
         <a class="detail-navbar detail-navbar__link" x-data="utils" href="../" @click="backIfSameOrigin">
           <span class="detail-navbar__icon" aria-hidden="true">‹</span>
           <span class="detail-navbar__label">カタログギフトTOP</span>
