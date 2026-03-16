@@ -38,7 +38,9 @@ Each direct child directory under `themes/web` / `themes/card` / `themes/package
 ```
 
 - After the SDK script loads, theme code must call `window.Alpine.start()` directly from that theme script.
-- For theme-specific one-shot initialization that depends on SDK Alpine data such as `params` or `itemDetail`, prefer `x-init="window.selectsInit($el, $data)"` and define `window.selectsInit` inside the page's loaded theme script.
+- For theme-specific initialization that depends on SDK Alpine data such as `params` or `itemDetail`, prefer `x-init` with `window.selectsInit*` functions defined in the page's loaded theme script.
+- Use `window.selectsInit($el, $data)` for the first stage that can run with the current Alpine data object.
+- When later DOM or later data stages need separate setup, it is acceptable to add stage-specific entrypoints such as `window.selectsInitItems($el, $data)` and call them from the matching `x-if` / `$nextTick` boundary.
 - In normal theme work, do not add a separate Alpine import; the SDK exposes `window.Alpine`.
 
 - Local file references inside a theme directory must always use relative paths, whether they appear in HTML, CSS, or JS.
@@ -168,7 +170,8 @@ Use `.agents/skills/selects-cli/SKILL.md` when the task depends on active design
 - Open the full spec only when exact behavior, URL contracts, or edge cases matter.
 - The SDK also exposes a `utils` Alpine data object. See the SDK references for `backIfSameOrigin(event)`.
 - Theme bootstrap code that already auto-runs on page load must not also be invoked from HTML with `x-init="init()"` or similar manual `init()` calls.
-- `x-init="window.selectsInit($el, $data)"` is the standard exception when a theme needs one-shot initialization based on SDK Alpine data.
+- `x-init="window.selectsInit($el, $data)"` is the standard exception when a theme needs initialization based on SDK Alpine data.
+- When one page has multiple initialization stages, `window.selectsInit*` entrypoints may be split by timing as long as each one is called from the matching Alpine lifecycle point.
 - `params` may omit properties when runtime values are unset, so theme templates must access param values defensively via Alpine's `$data` object, for example `x-show="$data.heroImage"` or `x-text="$data.message ?? ''"`.
 
 ## Validation

@@ -11,7 +11,7 @@
   </head>
   <body>
     <main data-generic-detail-root>
-      <section x-data="itemDetail" x-init="window.selectsInit($el, $data)" x-cloak>
+      <section x-data="itemDetail" x-cloak>
         <a class="detail-navbar detail-navbar__link" x-data="utils" href="../" @click="backIfSameOrigin">
           <span class="detail-navbar__icon" aria-hidden="true">‹</span>
           <span class="detail-navbar__label">カタログギフトTOP</span>
@@ -39,15 +39,19 @@
           </template>
 
           <template x-if="data">
-            <div class="detail-layout">
+            <div class="detail-layout" x-init="$nextTick(() => window.selectsInit($el, $data))">
               <section class="detail-layout__gallery">
-                <div class="detail-gallery" data-detail-gallery>
+                <div
+                  class="detail-gallery"
+                  data-detail-gallery
+                  :data-image-count="data.catalogItemImages?.length ?? 0"
+                >
                   <template x-for="(image, index) in data.catalogItemImages" :key="image.id">
                     <div
                       class="detail-gallery__tile"
                       data-detail-image
                       :data-primary-image="index === 0"
-                      :data-preview-image="createImageUrl(image.image, 'thumbnail')"
+                      :data-preview-image="createImageUrl(image.image, 'zoom')"
                     >
                       <img
                         :src="createImageUrl(image.image, 'thumbnail')"

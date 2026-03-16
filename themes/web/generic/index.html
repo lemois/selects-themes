@@ -11,7 +11,11 @@
   </head>
   <body>
     <main class="generic-shell" data-generic-index-root>
-      <div x-data="params" x-init="window.selectsInit($el, $data)" x-cloak>
+      <div
+        x-data="params"
+        x-init="window.selectsInit($el.closest('[data-generic-index-root]'), $data)"
+        x-cloak
+      >
         <section
           class="hero"
           :style="$data.backgroundImage ? `background-image:url(${$data.backgroundImage});` : ''"
@@ -56,7 +60,10 @@
               </div>
             </template>
 
-            <template x-if="data">
+            <template
+              x-if="data"
+              x-init="$nextTick(() => window.selectsInitItems($el.closest('[data-generic-index-root]'), $data))"
+            >
               <div>
                 <nav class="category-nav" data-category-nav hidden>
                   <div
