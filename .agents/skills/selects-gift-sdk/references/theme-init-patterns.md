@@ -25,6 +25,7 @@ Prefer this pattern for theme-local initialization:
 ## Multi-stage pattern
 
 When one page has setup that becomes valid at different Alpine lifecycle points, split the entrypoints by stage instead of forcing everything through one `x-init`.
+Register the later stage from the owning `x-data` scope so the watcher and the rendered view stay close to the same Alpine state.
 
 Typical split:
 
@@ -42,11 +43,11 @@ Example:
   >
     ...
 
-    <section x-data="items">
-      <template
-        x-if="data"
-        x-init="$nextTick(() => window.selectsInitItems($el.closest('[data-page-root]'), $data))"
-      >
+    <section
+      x-data="items"
+      x-init="$watch('data', (value) => value && $nextTick(() => window.selectsInitItems($el.closest('[data-page-root]'), $data)))"
+    >
+      <template x-if="data">
         <div>...</div>
       </template>
     </section>
@@ -72,7 +73,7 @@ Example:
 
 - It avoids direct reads from `window.SELECTS_GIFT_RUNTIME_ENV`.
 - It initializes from Alpine-managed SDK data instead of re-reading runtime globals.
-- It keeps the HTML surface small.
+- It keeps lifecycle wiring attached to the Alpine scope that owns the data.
 - It works even when the SDK Alpine data object is only available in Alpine expressions, not as a plain JS function such as `params()`.
 - It lets each initialization stage run only when its required data and DOM actually exist.
 
@@ -101,4 +102,5 @@ Example:
 - Do not add a dedicated `alpine-start.js` helper just to call `window.Alpine.start()`.
 - Do not use `x-effect` for one-shot bootstrap when `x-init` is sufficient.
 - Do not add dummy child elements only to trigger initialization.
+- Do not place DOM-dependent bootstrap directly on nodes created by `x-if` when the same timing can be expressed from the owning `x-data` scope with `$watch(...)+$nextTick`.
 - Do not force DOM-dependent setup to run before the required `x-if` / `x-for` content exists; split it into a later `window.selectsInit*` stage instead.

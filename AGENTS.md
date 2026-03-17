@@ -1,18 +1,15 @@
 # Repository Instructions
 
 ## Documentation map
-- `README.md`: canonical repository contract for theme structure, validation, SDK loading, and deployment.
-- `.agents/skills/*/SKILL.md`: task-specific workflows. Read only when the task matches the skill trigger.
+- `README.md`: canonical repository contract and quick reference.
+- `.agents/skills/*/SKILL.md`: task-specific workflow summaries. Read only when the task matches the skill trigger.
 - `.agents/skills/*/references/*`: long-form references. Open only when the summary is insufficient.
 
 ## Context policy
 - Prefer `README.md` over repeating repository rules here.
 - Keep `SKILL.md` files short; move detailed behavior and examples into `references/`.
 - When a summary and a reference both exist, read the summary first and open the reference only for exact behavior confirmation.
-
-## Theme work
-- Theme directories live under `themes/web`, `themes/card`, and `themes/package`.
-- Follow `README.md` for required files, HTML page rules, SDK loading, schema conventions, validation, and deployment.
+- For theme work, read `README.md` before opening skill-specific references.
 
 ## Skills
 - Use `docs-maintenance` for tasks that reorganize repository docs, reduce duplication, or optimize documentation for lower context use.

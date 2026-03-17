@@ -11,7 +11,11 @@
   </head>
   <body>
     <main data-generic-detail-root>
-      <section x-data="itemDetail" x-cloak>
+      <section
+        x-data="itemDetail"
+        x-init="$watch('data', (value) => value && $nextTick(() => window.selectsInit($el.querySelector('.detail-layout'), $data)))"
+        x-cloak
+      >
         <a class="detail-navbar detail-navbar__link" x-data="utils" href="../" @click="backIfSameOrigin">
           <span class="detail-navbar__icon" aria-hidden="true">‹</span>
           <span class="detail-navbar__label">カタログギフトTOP</span>
@@ -39,7 +43,7 @@
           </template>
 
           <template x-if="data">
-            <div class="detail-layout" x-init="$nextTick(() => window.selectsInit($el, $data))">
+            <div class="detail-layout">
               <section class="detail-layout__gallery">
                 <div
                   class="detail-gallery"
