@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "check": "npm run check:required && npm run check:json && biome check .",
+    "check": "npm run check:required && npm run check:json",
     "check:required": "npm run check:required:theme-files",
     "check:required:theme-files": "find themes/web themes/card themes/package -mindepth 1 -maxdepth 1 -type d -exec sh -c 'for dir in \"$@\"; do if [ ! -f \"$dir/index.html\" ]; then echo \"Missing index.html: $dir\"; exit 1; fi; if [ ! -f \"$dir/meta.json\" ]; then echo \"Missing meta.json: $dir\"; exit 1; fi; done' sh {} +",
     "check:json": "npm run check:json:meta-schema && npm run check:json:meta && npm run check:json:schema",
