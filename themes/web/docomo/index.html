@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NTTドコモ 首都圏ブロック 結成3周年記念品</title>
+    <meta property="og:title" content="NTTドコモ 首都圏ブロック 結成3周年記念品" />
+    <meta property="og:description" content="お好きな商品をひとつお選びください" />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="./runtime-env.js" defer></script>
+    <script src="https://selects.gift/sdk/v1.js" defer></script>
+    <script src="./assets/theme.js" defer></script>
+  </head>
+  <body>
+    <main data-docomo-index-root>
+      <div
+        x-data="params"
+        x-init="window.selectsInit($el.closest('[data-docomo-index-root]'), $data)"
+        x-cloak
+      >
+        <!-- ===== SP: Key Visual + Cards (hidden on PC) ===== -->
+        <div class="sp-only">
+          <!-- Page 1: Key Visual -->
+          <section class="kv-sp">
+            <div class="kv-sp__text-back"></div>
+            <div class="kv-sp__text-front"></div>
+            <div class="kv-sp__bottom">
+              <div class="kv-sp__bottom-text">お好きな商品をひとつお選びください</div>
+              <div class="scroll-chevron"></div>
+            </div>
+          </section>
+
+          <!-- Page 2: Card 1 -->
+          <section class="card-page" data-card-page>
+            <div class="card-page__content">
+              <div class="card-page__heading-sp"></div>
+              <div class="card-sp" data-card-index="0" data-card-bg="sp">
+                <div class="letter letter--sp" data-letter>
+                  <div class="letter__body letter__body--sp"></div>
+                  <div class="letter__text letter__text--sp" data-letter-text></div>
+                </div>
+              </div>
+              <div class="scroll-indicator" data-scroll-indicator hidden>
+                <div class="scroll-chevron"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Page 3: Card 2 -->
+          <section class="card-page" data-card-page>
+            <div class="card-page__content">
+              <div class="card-page__heading-sp"></div>
+              <div class="card-sp" data-card-index="1" data-card-bg="sp">
+                <div class="letter letter--sp" data-letter>
+                  <div class="letter__body letter__body--sp"></div>
+                  <div class="letter__text letter__text--sp" data-letter-text></div>
+                </div>
+              </div>
+              <div class="scroll-indicator" data-scroll-indicator hidden>
+                <div class="scroll-chevron"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Page 4: Card 3 -->
+          <section class="card-page" data-card-page="last">
+            <div class="card-page__content">
+              <div class="card-page__heading-sp"></div>
+              <div class="card-sp" data-card-index="2" data-card-bg="sp">
+                <div class="letter letter--sp" data-letter>
+                  <div class="letter__body letter__body--sp"></div>
+                  <div class="letter__text letter__text--sp" data-letter-text></div>
+                </div>
+              </div>
+              <div class="scroll-indicator" data-scroll-indicator hidden>
+                <div class="scroll-chevron"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ===== PC: Key Visual + Cards (hidden on SP) ===== -->
+        <section class="pc-only kv-pc-wrapper">
+          <div class="kv-pc">
+            <div class="kv-pc__text-back"></div>
+            <div class="kv-pc__text-front"></div>
+            <div class="kv-pc__bottom">
+              <div class="kv-pc__bottom-text">お好きな商品をひとつお選びください</div>
+              <div class="scroll-chevron"></div>
+            </div>
+          </div>
+          <div class="cards-pc-section">
+            <div class="cards-pc-section__inner">
+              <div class="cards-pc-heading"></div>
+              <div class="cards-pc-row">
+                <div class="card-pc" data-card-index="0" data-card-bg="pc">
+                  <div class="letter letter--pc" data-letter>
+                    <div class="letter__body letter__body--pc"></div>
+                    <div class="letter__text letter__text--pc" data-letter-text></div>
+                  </div>
+                </div>
+                <div class="card-pc" data-card-index="1" data-card-bg="pc">
+                  <div class="letter letter--pc" data-letter>
+                    <div class="letter__body letter__body--pc"></div>
+                    <div class="letter__text letter__text--pc" data-letter-text></div>
+                  </div>
+                </div>
+                <div class="card-pc" data-card-index="2" data-card-bg="pc">
+                  <div class="letter letter--pc" data-letter>
+                    <div class="letter__body letter__body--pc"></div>
+                    <div class="letter__text letter__text--pc" data-letter-text></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PC Modal (per-card, managed by JS) -->
+          <div class="pc-modal" data-pc-modal hidden>
+            <div class="pc-modal__overlay">
+              <div class="pc-modal__close" data-modal-close></div>
+            </div>
+            <div class="pc-modal__content" data-modal-content>
+              <div class="pc-modal__text" data-modal-text></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== Items Section ===== -->
+      <div
+        x-data="items"
+        x-init="$watch('data', (value) => value && $nextTick(() => window.selectsInitItems($el.closest('[data-docomo-index-root]'), $data)))"
+      >
+        <template x-if="loading">
+          <div class="loading-host">
+            <div class="spinner" aria-label="読み込み中"></div>
+          </div>
+        </template>
+
+        <template x-if="error">
+          <div class="status-box">
+            <div x-text="error.message"></div>
+            <button
+              type="button"
+              class="status-box__button"
+              x-show="error.isRetryable"
+              @click="fetch()"
+            >
+              リトライ
+            </button>
+          </div>
+        </template>
+
+        <template x-if="data">
+          <div>
+            <nav class="category-nav" data-category-nav hidden>
+              <div
+                class="category-nav__shadow category-nav__shadow--left"
+                data-nav-shadow-left
+                hidden
+              ></div>
+              <div
+                class="category-nav__shadow category-nav__shadow--right"
+                data-nav-shadow-right
+                hidden
+              ></div>
+              <div class="category-nav__scroll" data-category-nav-scroll></div>
+            </nav>
+
+            <template x-for="(sectionItems, sectionName) in sections" :key="sectionName">
+              <section
+                class="category-section"
+                :class="{ 'category-section--empty': !sectionName }"
+                data-category-section
+                :data-section-name="sectionName"
+              >
+                <header class="category-title" x-show="sectionName">
+                  <h2 class="category-title__main" x-text="sectionName"></h2>
+                </header>
+
+                <div class="catalog-grid columns-2" data-catalog-grid>
+                  <template x-for="item in sectionItems" :key="item.id">
+                    <div>
+                      <a
+                        class="catalog-card"
+                        :href="`./catalog-items/${item.id}`"
+                        :aria-label="item.name"
+                      >
+                        <span class="sr-only">商品詳細を見る</span>
+                        <div class="catalog-card__image">
+                          <img
+                            :src="createImageUrl(item.catalogItemImages[0]?.image, 'thumbnail')"
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="catalog-card__name" x-text="item.name"></div>
+
+                        <div
+                          class="comment"
+                          x-show="item.commentImage || item.commentTitle || item.commentBody"
+                        >
+                          <template x-if="item.commentImage">
+                            <img
+                              class="comment__image"
+                              :src="item.commentImage"
+                              alt=""
+                              loading="lazy"
+                            />
+                          </template>
+
+                          <div
+                            class="comment__content"
+                            x-show="item.commentTitle || item.commentBody"
+                          >
+                            <div class="comment__body" x-show="item.commentBody">
+                              <div class="preline-text" x-text="item.commentBody"></div>
+                              <img
+                                class="comment__bubble-tip"
+                                :class="item.commentImage ? 'comment__bubble-tip--image' : (item.commentTitle ? 'comment__bubble-tip--title' : '')"
+                                src="./assets/bubble-tail.svg"
+                                alt=""
+                              />
+                            </div>
+                            <div
+                              class="comment__title preline-text"
+                              x-show="item.commentTitle"
+                              x-text="item.commentTitle"
+                            ></div>
+                          </div>
+                        </div>
+                      </a>
+
+                      <!-- Extra Comment for comment-target item -->
+                      <template x-if="item.alias === 'comment-target'">
+                        <div class="extra-comments">
+                          <div class="extra-comment">
+                            <img class="extra-comment__photo" src="./assets/comment-photo.jpg" alt="" loading="lazy" />
+                            <div class="extra-comment__content">
+                              <div class="extra-comment__body">
+                                <div class="preline-text">寒くなってきましたし、我が家では最近ヘルシーブームなので野菜が多く入った鍋を食べる機会が増えました。昨年壊れてしまったグリル鍋を先日新たに購入し、さっそく何度か試していますが、いろいろな鍋のなかでも家族が一番好きなすき焼きをぜひ楽しみたいと思います。皆さんもぜひ美味しいものを食べてリフレッシュして頂き、これからも益々頑張っていきましょう！</div>
+                                <img class="comment__bubble-tip comment__bubble-tip--image" src="./assets/bubble-tail.svg" alt="" />
+                              </div>
+                              <div class="extra-comment__title">首都圏本部 ネットワーク運営事業部長 林直樹</div>
+                            </div>
+                          </div>
+                          <div class="extra-comment">
+                            <img class="extra-comment__photo" src="./assets/comment-photo-2.jpg" alt="" loading="lazy" />
+                            <div class="extra-comment__content">
+                              <div class="extra-comment__body">
+                                <div class="preline-text">山梨にきて早4ヶ月、週末はロードバイクでDSを横目に、河から山沿いまで駆け巡っています。  帰宅し長風呂からの冷えたビールやワインを飲むのは、走っているときとはまた違う最高の時間です。 凝った料理はできないので、焼くだけの和牛のすき焼きは、週末のちょっと贅沢なつまみです。</div>
+                                <img class="comment__bubble-tip comment__bubble-tip--image" src="./assets/bubble-tail.svg" alt="" />
+                              </div>
+                              <div class="extra-comment__title">山梨支店長 清水一郎</div>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </template>
+                </div>
+              </section>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <button type="button" class="to-top is-hidden" data-to-top-button aria-label="先頭へ戻る">
+        ↑
+      </button>
+    </main>
+  </body>
+</html>
