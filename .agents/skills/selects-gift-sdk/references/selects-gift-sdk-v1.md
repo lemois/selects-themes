@@ -61,7 +61,7 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 ## 3. Global behavior
 
 - The SDK registers Alpine data on `window.Alpine`.
-- Theme code must call `window.Alpine.start()` directly after registering any custom Alpine data.
+- Theme code must call `window.Alpine.start()` after registering any custom Alpine data.
 - You can use Alpine data directly in templates via `x-data`.
 - Network requests are performed internally by the SDK.
 
@@ -285,7 +285,100 @@ For robust theme UX:
 
 ---
 
-## 9. Scope of this guide
+## 9. Type reference
+
+This section documents the public data shapes that theme templates consume.
+Types that are only used internally by the SDK (such as variant resolution internals) are omitted.
+
+### Shared types
+
+```ts
+type ErrorState = {
+  message: string;
+  isRetryable: boolean;
+};
+```
+
+### `items` data types
+
+```ts
+type GiftCatalogItem = {
+  id: number;
+  alias?: string | null;
+  name: string;
+  commentImage?: string | null;
+  commentTitle: string;
+  commentBody: string;
+  section: string;
+  productId: number;
+  catalogItemImages: Array<{
+    id: number;
+    image: string;
+  }>;
+};
+
+type GiftCatalogItems = {
+  count: number;
+  items: GiftCatalogItem[];
+};
+```
+
+### `itemDetail` data types
+
+```ts
+type GiftCatalogItemDetail = {
+  id: number;
+  alias?: string | null;
+  name: string;
+  description: string;
+  specification: string;
+  commentImage?: string | null;
+  commentTitle: string;
+  commentBody: string;
+  section: string;
+  catalogItemImages: Array<{
+    id: number;
+    image: string;
+  }>;
+  product: {
+    id: number;
+    status: string;
+    type: string;
+    current: {
+      id: number;
+      token: string;
+      productHistoryProductVariations: Array<{
+        id: number;
+        productVariation: {
+          id: number;
+          name: string;
+          productVariationValues: Array<{
+            id: number;
+            name: string;
+          }>;
+        };
+      }>;
+    };
+  };
+};
+```
+
+`selectedProduct` resolves to the following shape:
+
+```ts
+type SelectedProduct = {
+  id: number;
+  status: string;
+  current: {
+    id: number;
+    token: string;
+  };
+};
+```
+
+---
+
+## 10. Scope of this guide
 
 This guide intentionally focuses on **public usage behavior** for SDK consumers.
 It does not describe internal implementation, private closures, or internal GraphQL client details.
