@@ -34,4 +34,4 @@ Use this skill for theme work that depends on design data from the local Selects
 - **Never start your own dev server** (e.g. via `npx serve`, `python -m http.server`, or any other local server) to preview themes. Always use `selects` to obtain a preview URL from the design app.
 - **Design creation and updates** must go through `selects`. Do not manually construct design data outside the CLI.
 
-See `README.md` for the repository-level mapping between `design.type`, theme directories, and `schema.json`.
+See the `theme-authoring` skill for theme directory structure and `schema.json` rules.

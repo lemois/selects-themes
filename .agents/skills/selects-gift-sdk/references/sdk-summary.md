@@ -4,13 +4,8 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 ## Loading
 
-- Theme HTML must load the SDK script.
-- When `runtime-env.js` exists, load it before the SDK.
-- Theme bootstrap code should live in the page's theme script such as `assets/theme.js`.
-- After the SDK script loads, theme code must call `window.Alpine.start()` directly from that theme script.
-- Theme-local file references must use relative paths.
-- Local assets should be referenced relative to the current page.
-- Do not add a separate Alpine import in normal theme work; the SDK exposes `window.Alpine`.
+- Script loading order, bootstrap rules, and path rules live in the `theme-authoring` skill.
+- The SDK exposes `window.Alpine`; do not add a separate Alpine import.
 
 ## Available Alpine data objects
 
