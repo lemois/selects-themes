@@ -13,5 +13,5 @@
 
 ## Skills
 - Use `docs-maintenance` for tasks that reorganize repository docs, reduce duplication, or optimize documentation for lower context use.
-- Use `selects-cli` for tasks that depend on the local design app state or the `selects` bridge.
+- Use `selects-cli` for tasks that depend on the local design app state or the `selects` bridge. This includes **theme preview** (obtaining a preview URL) and **design creation/updates**.
 - Use `selects-gift-sdk` for tasks that edit theme HTML consuming SDK data objects or SDK-specific behavior.

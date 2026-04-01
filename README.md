@@ -161,6 +161,8 @@ Multiple patterns:
   - `card` -> `themes/card/<theme>`
   - `package` -> `themes/package/<theme>`
 - If the design app is not running, treat that as an environment precondition rather than a theme bug.
+- **Theme preview**: Always obtain a preview URL from the design app via `selects`. Never start a local dev server (e.g. `npx serve`, `python -m http.server`) to preview themes.
+- **Design creation**: Use `selects` to create or update designs in the design app. Run `selects` with no arguments to discover available commands including design creation.
 - Use `.agents/skills/selects-cli/SKILL.md` when the task depends on active design state or `selects` request construction.
 
 ## SDK docs
