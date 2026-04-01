@@ -25,10 +25,12 @@ Use this skill when editing repository docs, agent docs, or local skills in this
 
 ## Constraints
 
+- Keep every document as small as possible. Size is a cost — each line an agent reads consumes context.
 - Prefer one source of truth for each rule.
 - Prefer short summaries plus references over repeated prose.
-- Keep repository-wide rules in `README.md` unless they are agent-only instructions.
+- Keep `README.md` as a human-facing overview and operations reference. It should not contain detailed rules that agents need to consume.
 - Keep `AGENTS.md` focused on routing and context policy, not full repository restatement.
+- Keep agent-consumable rules in skills so they are loaded only when the task matches.
 - Keep skill summaries brief and load detailed guidance only on demand.
 
 ## References

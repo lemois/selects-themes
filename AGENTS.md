@@ -1,17 +1,25 @@
 # Repository Instructions
 
-## Documentation map
-- `README.md`: canonical repository contract and quick reference.
-- `.agents/skills/*/SKILL.md`: task-specific workflow summaries. Read only when the task matches the skill trigger.
-- `.agents/skills/*/references/*`: long-form references. Open only when the summary is insufficient.
+## Directory structure
+- `themes/web`: themes for online catalog gifts
+- `themes/card`: themes for item card sets
+- `themes/package`: themes for packaging such as sleeves
+
+Each direct child directory under `themes/web/`, `themes/card/`, or `themes/package/` is a theme directory.
 
 ## Context policy
-- Prefer `README.md` over repeating repository rules here.
-- Keep `SKILL.md` files short; move detailed behavior and examples into `references/`.
+- `.agents/skills/*/SKILL.md`: task-specific workflow summaries. Read only when the task matches the skill trigger.
+- `.agents/skills/*/references/*`: long-form references. Open only when the summary is insufficient.
 - When a summary and a reference both exist, read the summary first and open the reference only for exact behavior confirmation.
-- For theme work, read `README.md` before opening skill-specific references.
 
 ## Skills
-- Use `docs-maintenance` for tasks that reorganize repository docs, reduce duplication, or optimize documentation for lower context use.
-- Use `selects-cli` for tasks that depend on the local design app state or the `selects` bridge. This includes **theme preview** (obtaining a preview URL) and **design creation/updates**.
+- Use `theme-authoring` when creating, editing, or structuring theme directories — including file layout, asset paths, `schema.json`, and `meta.json`.
+- Use `selects-cli` when the task involves any of the following: previewing a theme, checking how a theme looks, inspecting the current design or its params, listing designs, creating or updating a design, or fetching catalog items. The `selects` CLI is the only way to interact with the local design app. **Never start a local dev server** (e.g. `npx serve`, `python -m http.server`) to preview themes — always use `selects` to obtain the preview URL.
 - Use `selects-gift-sdk` for tasks that edit theme HTML consuming SDK data objects or SDK-specific behavior.
+- Use `docs-maintenance` for tasks that reorganize repository docs, reduce duplication, or optimize documentation for lower context use.
+
+## Validation
+
+```bash
+npm run check
+```

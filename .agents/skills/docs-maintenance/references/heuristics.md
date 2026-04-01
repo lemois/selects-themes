@@ -4,9 +4,9 @@ Use this file when the basic workflow in `SKILL.md` is not enough.
 
 ## Responsibility split
 
-- `README.md`: canonical repository contract, operator-facing quick reference, stable rules used across tasks.
-- `AGENTS.md`: agent-only routing, context policy, and which local skills to use.
-- `.agents/skills/<name>/SKILL.md`: trigger conditions, minimal workflow, and when to open more detail.
+- `README.md`: human-facing overview, operations reference (deploy, validation, secrets). Not the primary source for agent-consumable rules.
+- `AGENTS.md`: agent-only routing, context policy, and which local skills to use. Pure index.
+- `.agents/skills/<name>/SKILL.md`: trigger conditions, rule summaries, minimal workflow, and when to open more detail.
 - `.agents/skills/<name>/references/*`: detailed behavior, examples, edge cases, and long checklists.
 
 ## Single-source rules
@@ -28,5 +28,5 @@ Use this file when the basic workflow in `SKILL.md` is not enough.
 - Does each edited document have a single clear role?
 - Can a future edit determine the owner of each rule quickly?
 - Did any summary start restating detailed reference content?
-- Did any skill start duplicating repository-level rules that belong in `README.md`?
+- Did any skill start duplicating rules that another skill already owns?
 - Is there a shorter pointer that preserves clarity?
