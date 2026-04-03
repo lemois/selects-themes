@@ -11,6 +11,7 @@ Use this file first. Open the full spec only when this summary is insufficient.
 
 - `params`
 - `items`
+- `item`
 - `itemDetail`
 - `utils`
 
@@ -38,6 +39,15 @@ Use this file first. Open the full spec only when this summary is insufficient.
 - Method: `fetch()` for retry/manual reload.
 - Helper: `createImageUrl(path, size?)`.
 - Always render loading, error, and success states separately.
+
+## `item`
+
+- Async single catalog item data source by alias.
+- Usage: `x-data="item('some-alias')"`.
+- State: `loading`, `error`, `data`.
+- Method: `fetch()` for retry/manual reload.
+- Helper: `createImageUrl(path, size?)`.
+- Multiple `item` instances in the same rendering pass are batched into a single GraphQL query.
 
 ## `itemDetail`
 

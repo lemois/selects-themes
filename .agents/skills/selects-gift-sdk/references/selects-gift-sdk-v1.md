@@ -13,6 +13,7 @@ After loading the SDK script, these Alpine data objects are available:
 
 - `params`
 - `items`
+- `item`
 - `itemDetail`
 - `utils`
 
@@ -147,7 +148,67 @@ If `window.SELECTS_GIFT_RUNTIME_ENV` is missing, SDK initialization fails.
 
 ---
 
-## 6. `itemDetail` data
+## 6. `item` data
+
+`item` retrieves a single catalog item by its alias.
+
+### Usage
+
+```html
+<div x-data="item('some-alias')">
+```
+
+The `alias` argument is required. If the value is not a string, `error` is set immediately with an invalid-alias message.
+
+### Batching behavior
+
+When multiple `item` instances are initialized in the same rendering pass, the SDK batches their requests into a single GraphQL query using `queueMicrotask`. This avoids N+1 requests when many `item` components appear on the same page.
+
+### State
+
+- `loading: boolean`
+- `error?: { message: string; isRetryable: boolean }`
+- `data?: GiftCatalogItem`
+- `createImageUrl(path, size?)` (image URL helper)
+  - `size`: `"thumbnail"` | `"zoom"`
+
+### Methods
+
+- `fetch()`
+  - Manually retries loading the catalog item (for example, from a Retry button).
+
+### Minimal template example
+
+```html
+<div x-data="item('some-alias')">
+  <template x-if="loading">
+    <p>Loading...</p>
+  </template>
+
+  <template x-if="error">
+    <div>
+      <p x-text="error.message"></p>
+      <button type="button" x-show="error.isRetryable" @click="fetch()">
+        Retry
+      </button>
+    </div>
+  </template>
+
+  <template x-if="data">
+    <article>
+      <h3 x-text="data.name"></h3>
+      <p x-text="data.description"></p>
+      <template x-for="img in data.catalogItemImages" :key="img.id">
+        <img :src="createImageUrl(img.image)" />
+      </template>
+    </article>
+  </template>
+</div>
+```
+
+---
+
+## 7. `itemDetail` data
 
 `itemDetail` retrieves and manages one catalog item detail page.
 
@@ -243,7 +304,7 @@ If the path does not match this format, `error` is set and item detail cannot be
 
 ---
 
-## 7. `utils` data
+## 8. `utils` data
 
 `utils` exposes small template helpers that do not need remote data fetching.
 
@@ -275,7 +336,7 @@ Keep a real `href` for no-JavaScript fallback and SEO/crawlability, then interce
 
 ---
 
-## 8. Error handling guidance for theme developers
+## 9. Error handling guidance for theme developers
 
 For robust theme UX:
 
@@ -285,7 +346,7 @@ For robust theme UX:
 
 ---
 
-## 9. Type reference
+## 10. Type reference
 
 This section documents the public data shapes that theme templates consume.
 Types that are only used internally by the SDK (such as variant resolution internals) are omitted.
@@ -299,13 +360,15 @@ type ErrorState = {
 };
 ```
 
-### `items` data types
+### `items` / `item` data types
 
 ```ts
 type GiftCatalogItem = {
   id: number;
   alias?: string | null;
   name: string;
+  description: string;
+  specification: string;
   commentImage?: string | null;
   commentTitle: string;
   commentBody: string;
@@ -378,7 +441,7 @@ type SelectedProduct = {
 
 ---
 
-## 10. Scope of this guide
+## 11. Scope of this guide
 
 This guide intentionally focuses on **public usage behavior** for SDK consumers.
 It does not describe internal implementation, private closures, or internal GraphQL client details.
