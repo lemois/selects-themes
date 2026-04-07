@@ -69,6 +69,25 @@ Example:
 })();
 ```
 
+## Registering custom Alpine data
+
+When a theme needs its own reusable Alpine data object (in addition to SDK-provided `params` / `items` / `itemDetail`), register it on `window.Alpine` **before** calling `window.Alpine.start()`:
+
+```html
+<div x-data="themeNav" x-cloak>...</div>
+```
+
+```js
+(() => {
+  window.Alpine.data('themeNav', () => ({
+    open: false,
+    toggle() { this.open = !this.open },
+  }));
+
+  window.Alpine.start();
+})();
+```
+
 ## Why this pattern
 
 - It avoids direct reads from `window.SELECTS_GIFT_RUNTIME_ENV`.
