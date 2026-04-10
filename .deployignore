@@ -3,3 +3,5 @@
 # Example:
 #   web/example
 #   card/some-theme
+#
+# IMPORTANT: Always confirm with the user before removing entries (re-enabling deployment).

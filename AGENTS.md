@@ -20,7 +20,7 @@ Each direct child directory under `themes/web/`, `themes/card/`, or `themes/pack
 
 ## Deploy exclusion
 
-Published themes are listed in `.deployignore` (one `domain/theme-name` per line) to exclude them from R2 sync. This file is required — `npm run check` fails if it is missing.
+Published themes are listed in `.deployignore` (one `domain/theme-name` per line) to exclude them from R2 sync. This file is required — `npm run check` fails if it is missing. **Always confirm with the user before removing entries from `.deployignore` (i.e., re-enabling deployment).**
 
 ## Validation
 
