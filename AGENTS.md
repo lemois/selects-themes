@@ -18,6 +18,10 @@ Each direct child directory under `themes/web/`, `themes/card/`, or `themes/pack
 - Use `selects-gift-sdk` for tasks that edit theme HTML consuming SDK data objects or SDK-specific behavior.
 - Use `docs-maintenance` for tasks that reorganize repository docs, reduce duplication, or optimize documentation for lower context use.
 
+## Deploy exclusion
+
+Published themes are listed in `.deployignore` (one `domain/theme-name` per line) to exclude them from R2 sync. This file is required — `npm run check` fails if it is missing.
+
 ## Validation
 
 ```bash
