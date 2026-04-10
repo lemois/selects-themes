@@ -1,0 +1,5 @@
+# Themes listed here are excluded from deployment to R2.
+# One entry per line, in domain/theme-name format.
+# Example:
+#   web/example
+#   card/some-theme

@@ -81,6 +81,10 @@ See `references/path-examples.md` for concrete examples.
 - `schema.json` must declare `"$schema": "http://json-schema.org/draft-07/schema#"`.
 - See `references/json-schema-rules.md` for schema authoring rules and `x-ui` widget usage.
 
+## Freezing a published theme
+
+After a theme is published and should no longer be deployed, add its `domain/theme-name` to `.deployignore` at the repository root. This excludes it from R2 sync so local edits cannot affect production.
+
 ## References
 
 - Path examples: `references/path-examples.md`

@@ -39,6 +39,8 @@ Repository source paths → R2 destination paths:
 - `themes/card/` → `card/`
 - `themes/package/` → `package/`
 
+Themes listed in `.deployignore` are excluded from sync. One entry per line, in `domain/theme-name` format (e.g. `web/example`). Use this to freeze published themes so that local edits do not affect production.
+
 Required GitHub Secrets:
 - `R2_ACCOUNT_ID`
 - `R2_BUCKET`
